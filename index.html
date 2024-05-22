@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>sssticky notes</title>
+
+        <!-- <base href="/" /> -->
+        <base href="/sssticky/" />
+
+        <meta
+            name="color-scheme"
+            content="light dark"
+        />
+        <meta
+            name="viewport"
+            content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
+        <meta
+            name="format-detection"
+            content="telephone=no"
+        />
+        <meta
+            name="msapplication-tap-highlight"
+            content="no"
+        />
+
+        <link
+            rel="shortcut icon"
+            type="image/png"
+            href="/favicon.png"
+        />
+
+        <!-- add to homescreen for ios -->
+        <meta
+            name="apple-mobile-web-app-capable"
+            content="yes"
+        />
+        <meta
+            name="apple-mobile-web-app-title"
+            content="Ionic App"
+        />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black"
+        />
+    </head>
+
+    <body>
+        <div id="app"></div>
+        <script
+            type="module"
+            src="/src/main.ts"
+        ></script>
+
+        <script src="imported/jquery-3.6.0.min.js"></script>
+        <link
+            rel="stylesheet"
+            href="imported/jquery-ui.css"
+        />
+        <style>
+            .ui-resizable-se {
+                z-index: 0 !important;
+                opacity: 0.33;
+            }
+        </style>
+        <script src="imported/jquery-ui.min.js"></script>
+        <script src="imported/masonry.pkgd.min.js"></script>
+    </body>
+</html>

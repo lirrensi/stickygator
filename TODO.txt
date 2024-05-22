@@ -1,0 +1,50 @@
+Initial version 1.0
+[x] deleteion note
+    [x] => drag option
+    [x] => select and del option
+        => when editor in focus with confirm;
+
+[x] tab proper resize;
+    [x] delete tab / with sideclick???
+
+[x] editing note, like with quill, also there a color editor
+    => color style transfer, black/white;
+
+[x] some settings => order as looks ||| display all sequential;
+    [x] allow to resize in grid?
+    [ ] allow create in grid;
+
+[ ] move tabs into another component; ???
+
+[ ] note to other tab movable
+
+[x] selective env build for browser by path;
+
+[x] dark theme selective new note color;
+    [x] dark theme not saving, along with any settings
+
+[ ] include ul button?
+
+V1.1
+[x] setting for system wide font size;
+[x] grid snap would be good actually
+[x] scrollbard fix, make slender or smth nicer => no both note and sides
+[x] always paste without color formatting? how
+[x] disable ctrl S into different;
+[x] add versioning notes in settings;
+[x] styling fix, there is some overflow?
+[x] checkbox styles fix to match colors + also bolder
+[x] enable service worker for offline usage;
+[x] forbid paste with color
+[x] added hack touch support
+[x] add a proper tutorial
+[x] trash not fixed
+
+
+V1.2
+[ ] change to interact js for better support...?
+[ ] mobile cant create note? / refining mobile version... / do I even need that? Will I publish the app?
+[ ] export json better have timestamp
+[ ] the bar - add auto swap to bottom if space non existant, also maybe always fixed width so its regular?
+(add anchor margin 0 auto and child positiing + check if postion from top less thatn 50px then bar at bottom instead...)
+[ ] fix focus loss issue

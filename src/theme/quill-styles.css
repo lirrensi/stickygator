@@ -1,0 +1,62 @@
+.ql-container {
+    border: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+    /* color: black !important; */
+    font-size: 16px;
+    background-color: transparent !important;
+}
+.ql-editor {
+    padding: 0 !important;
+
+    scrollbar-width: 2px;
+    scrollbar-width: thin;
+}
+.ql-editor::-webkit-scrollbar {
+    width: 2px; /* Width of the scrollbar */
+    height: 2px; /* Height of the scrollbar for horizontal scrolling */
+}
+
+.ql-editor::-webkit-scrollbar-thumb {
+    background-color: rgba(230, 230, 230, 0.8); /* Color of the scrollbar thumb with transparency */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.ql-editor::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(85, 85, 85, 0.8); /* Color of the scrollbar thumb when hovered */
+}
+
+.ql-editor::-webkit-scrollbar-track {
+    background-color: transparent; /* White background for the track */
+}
+
+/* text internal styles */
+.ql-editor ol,
+.ql-editor ul {
+    /* initial 1.5 */
+    padding-left: 0.5em;
+}
+
+/* checkbox color matches the parent text color */
+.ql-editor ul[data-checked="true"] > li::before,
+.ql-editor ul[data-checked="false"] > li::before {
+    color: inherit;
+    font-weight: bold;
+}
+
+/* fix indets based on tab */
+.ql-editor li.ql-indent-1:not(.ql-direction-rtl) {
+    /* initial padding was => 4.5em */
+    padding-left: 3em;
+}
+.ql-editor li.ql-indent-2:not(.ql-direction-rtl) {
+    /* initial padding was => 7.5em */
+    padding-left: 5em;
+}
+.ql-editor li.ql-indent-3:not(.ql-direction-rtl) {
+    /* initial padding was => 4.5em */
+    padding-left: 7em;
+}
+
+.ql-snow.ql-toolbar:after,
+.ql-snow .ql-toolbar:after {
+    display: none;
+}

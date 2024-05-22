@@ -1,0 +1,7 @@
+{
+  "name": "sssticky",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}

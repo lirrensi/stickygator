@@ -1,0 +1,45 @@
+/* .ion-palette-dark */
+
+/* scrollbards override to make slender everywhere */
+/* Global styles to disable scrollbars */
+/* For Webkit browsers (Chrome, Safari) */
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+}
+
+.slim-scrollbar {
+    scrollbar-width: 4px;
+    scrollbar-width: thin;
+}
+.slim-scrollbar::-webkit-scrollbar {
+    width: 4px; /* Width of the scrollbar */
+    height: 4px; /* Height of the scrollbar for horizontal scrolling */
+}
+
+.slim-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(180, 180, 180, 0.8); /* Color of the scrollbar thumb with transparency */
+    border-radius: 10px; /* Rounded corners */
+}
+.ion-palette-dark .slim-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(120, 120, 120, 0.8); /* Color of the scrollbar thumb with transparency */
+}
+
+.slim-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(85, 85, 85, 0.8); /* Color of the scrollbar thumb when hovered */
+}
+.ion-palette-dark .slim-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(180, 180, 180, 0.8); /* Color of the scrollbar thumb when hovered */
+}
+
+.slim-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent; /* White background for the track */
+}
+
+html,
+body {
+    touch-action: manipulation; /* Prevents double-tap to zoom */
+}
