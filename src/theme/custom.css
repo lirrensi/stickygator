@@ -43,3 +43,63 @@ html,
 body {
     touch-action: manipulation; /* Prevents double-tap to zoom */
 }
+
+/* note toolbar global styles */
+.toolbar-anchor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 2px;
+    height: 2px;
+    /* background-color: red; */
+}
+.toolbar {
+    position: absolute;
+    bottom: calc(100% - -10px);
+
+    /* width: 100%; */
+    /* top: -50px; */
+    /* left: 0; */
+
+    /* width: 400px;
+    left: calc(100% - 200px); */
+
+    width: 260px;
+    left: calc(100% - 130px);
+
+    border: 0 !important;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    display: flex;
+    justify-content: space-between;
+}
+.toolbar-obstructed {
+    /* left: 0 !important; */
+    top: unset;
+    bottom: 0;
+}
+.toolbar-obstructed .toolbar {
+    bottom: calc(100% - +80px);
+}
+/* for screens less than 400 px */
+/* @media screen and (max-width: 400px) {
+    .toolbar {
+        width: 260px;
+        left: calc(100% - 130px);
+    }
+} */
+
+.ion-palette-dark .toolbar {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+
+.canvas-background {
+    background-color: #f7f9fc;
+}
+.ion-palette-dark .canvas-background {
+    background-color: #212121;
+    
+}

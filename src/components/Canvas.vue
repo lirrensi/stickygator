@@ -3,16 +3,18 @@
     /* min-width: 100%;
     min-height: 100%; */
     width: 100%;
-    height: 100%;
+    /* height: 100%; */
+    height: calc(100% - 40px);
     /* height: 2000px; */
     position: relative;
-    background-color: #f7f9fc;
-    padding-top: 10px;
-    overflow: auto;
-}
 
-.ion-palette-dark .canvas {
-    background-color: #212121;
+    padding-top: 10px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+
+    z-index: 4;
+
+    clip: rect(auto, auto, auto, auto); /* Allow elements to be positioned outside */
 }
 
 #masonry {
@@ -57,19 +59,25 @@
 .ui-state-highlight.note {
     filter: opacity(0.1);
 }
+
+/* .canvas-modifier-drag {
+    overflow-x: unset !important;
+    overflow-y: unset !important;
+} */
 </style>
 
 <template>
     <div
-        class="canvas slim-scrollbar"
+        class="canvas canvas-background slim-scrollbar"
         ref="canvasRef"
         @click="clickEmptySpace($event)"
         @dblclick="doubleClickEmptySpace($event)"
     >
         <!-- display when in board mode -->
+        <!-- @ts-ignore -->
         <Note
             v-if="store.display === 'board'"
-            v-for="note in store.currentNotesList as any"
+            v-for="note in store.currentNotesList"
             :key="note.note_id"
             :note="note.note_id"
         />
@@ -86,7 +94,7 @@
         >
             <Note
                 class="note-selector"
-                v-for="note in store.currentNotesList as any"
+                v-for="note in store.currentNotesList"
                 :key="note.note_id"
                 :note="note.note_id"
             />
@@ -94,7 +102,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, defineEmits, onMounted, watch } from "vue";
+import { ref, defineEmits, onMounted, watch, computed, onBeforeUnmount } from "vue";
 import { IonReorderGroup, IonIcon } from "@ionic/vue";
 import { trashOutline } from "ionicons/icons";
 
@@ -135,20 +143,22 @@ function doubleClickEmptySpace(event: any) {
     // TODO: set timeout => if not not edited in time => delete
 }
 
+let masonryInstance: any = null;
 function initMasonry() {
     setTimeout(() => {
-        // const lowestWidth = store.currentNotesList.sort((a: any, b: any) => {
-        //     return a.width - b.width;
-        // })[0]?.width;
-        // console.log("lowestWidth", lowestWidth);
-        $("#masonry").masonry({
+        if (masonryInstance) {
+            masonryInstance.masonry("destroy");
+        }
+        masonryInstance = $("#masonry").masonry({
             // options...
             itemSelector: ".note-selector",
             // columnWidth: lowestWidth || 200,
-            columnWidth: 100,
+            // columnWidth: 100,
+            // columnWidth: window.innerWidth / 3,
             gutter: 20,
-            fitWidth: true,
+            // fitWidth: true,
         });
+        console.log("initMasonry", masonryInstance);
     }, 100);
 }
 function applyIntegrations() {
@@ -168,6 +178,8 @@ function applyIntegrations() {
                     const note = store.notes[noteId];
                     store.deleteNote(note);
                 }
+                // remove class even if fail
+                ui.draggable.removeClass("ui-state-highlight");
             },
             out: function (event, ui) {
                 ui.draggable.removeClass("ui-state-highlight");
@@ -178,13 +190,35 @@ function applyIntegrations() {
         });
     }
     if (store.display === "grid") {
+        console.log("initMasonry");
         initMasonry();
     }
 }
 onMounted(() => {
     applyIntegrations();
+    store.events.on("store/createNote", () => {
+        applyIntegrations();
+    });
 });
+onBeforeUnmount(() => {
+    store.events.off("store/createNote");
+});
+
 store.$subscribe((mutation, store) => {
+    // applyIntegrations();
+});
+const currentViewMode = computed(() => store.display);
+const currentTab = computed(() => store.currentTabIndex);
+watch([currentViewMode, currentTab], () => {
+    // console.log("currentTab CHANGED", currentTab.value);
     applyIntegrations();
 });
+// watch(
+//     store.currentNotesList,
+//     state => {
+//         console.log("currentNotesList CHANGEd", state);
+//         applyIntegrations();
+//     },
+//     { deep: true },
+// );
 </script>

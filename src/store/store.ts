@@ -1,20 +1,22 @@
 import { Pinia, defineStore } from "pinia";
 import { v4 as uuid } from "uuid";
+import { Snowflake } from "@theinternetfolks/snowflake";
 import mitt from "mitt";
 import localforage from "localforage";
+import { isPlatform } from "@ionic/vue";
 
 export interface TabList {
     [key: string]: Tab;
 }
 export interface Tab {
-    tab_id: string;
+    tab_id: string | number;
     name: string;
     order: number;
     // notes: { [key: string]: StickyNote };
 }
 export interface StickyNote {
-    note_id: string; // uuid
-    tab_id: string;
+    note_id: string | number; // uuid => later snowflake
+    tab_id: string | number;
     x: number; // from topleft 0 => xxx
     y: number; // from topleft 0 => xxx
     width: number;
@@ -34,16 +36,28 @@ export interface AppSettings {
     storageModeFilePath: string;
 }
 
+export interface Grid {
+    cols: number;
+    width: number;
+}
+
 export const eventBus = mitt();
 
 export const noteStore = defineStore("noteStore", {
     state: () => {
         return {
+            events: mitt(),
             display: "board" as DisplayNotes,
+            grid: {
+                width: 300,
+                cols: 1,
+            } as Grid,
+
             tabs: {} as TabList,
             notes: {} as { [key: string]: StickyNote },
-            currentTabIndex: "",
-            currentNoteActivated: "",
+            currentTabIndex: 0 as string | number,
+            currentNoteActivated: 0 as string | number,
+
             appSettings: {} as AppSettings,
         };
     },
@@ -51,9 +65,9 @@ export const noteStore = defineStore("noteStore", {
         currentTab(state) {
             return state.tabs[state.currentTabIndex] || {};
         },
-        currentNotesList(state: any) {
+        currentNotesList(state: any): StickyNote[] {
             const currentTabId = state.currentTabIndex;
-            return Object.values(state.notes)
+            return (Object.values(state.notes) as StickyNote[])
                 .filter((note: any) => note.tab_id === currentTabId)
                 .sort((a: any, b: any) => b.modified_at - a.modified_at);
             // .map((note: any, index) => {
@@ -64,6 +78,24 @@ export const noteStore = defineStore("noteStore", {
     },
     actions: {
         async init() {
+            if (isPlatform("ios") || isPlatform("android")) {
+                this.display = "grid";
+            }
+            this.restoreFromLocal();
+            this.calculateGrid();
+        },
+        calculateGrid() {
+            let basisWidth = 300;
+            const cols = Math.floor(window.innerWidth / 300);
+            if (cols === 1) {
+                basisWidth = window.innerWidth - 20;
+            }
+            this.grid = {
+                width: basisWidth,
+                cols: cols,
+            };
+        },
+        async restoreFromLocal() {
             const store: string | null = await localforage.getItem("store");
             if (store) {
                 const { tabs, notes, currentTabIndex, appSettings } = JSON.parse(store);
@@ -71,12 +103,16 @@ export const noteStore = defineStore("noteStore", {
                 this.notes = notes || {};
                 this.appSettings = appSettings || {};
                 // create def tabs if not exist;
-                if (Object.keys(tabs).length === 0) {
-                    this.createTab("default");
-                    this.selectTab(Object.keys(tabs)[0]);
-                    this.onSave(this);
-                }
+                // if (Object.keys(tabs).length === 0) {
+                //     this.createTab("default");
+                //     // this.selectTab(Object.keys(tabs)[0]);
+                //     this.onSave(this);
+                // }
                 this.selectTab(currentTabIndex);
+            } else {
+                // create def tabs if not exist;
+                this.createTab("default");
+                this.onSave(this);
             }
         },
         async onSave(state: any) {
@@ -106,14 +142,14 @@ export const noteStore = defineStore("noteStore", {
         toggleDisplayType() {
             this.display = this.display === "board" ? "grid" : "board";
         },
-        selectTab(tab_id: string) {
+        selectTab(tab_id: string | number) {
             this.currentTabIndex = tab_id;
         },
-        setActiveNote(note_id: string = "") {
+        setActiveNote(note_id: string | number = "") {
             this.currentNoteActivated = note_id;
         },
         createTab(newTabName: string) {
-            const tab_id = uuid();
+            const tab_id = Number(Snowflake.generate());
             const newTab: Tab = {
                 tab_id: tab_id,
                 name: newTabName,
@@ -145,7 +181,7 @@ export const noteStore = defineStore("noteStore", {
                 console.error("no tab selected when creating note");
                 return;
             }
-            const note_id = uuid();
+            const note_id = Number(Snowflake.generate());
             const newNote: StickyNote = {
                 note_id: note_id,
                 tab_id: this.currentTabIndex,
@@ -158,6 +194,8 @@ export const noteStore = defineStore("noteStore", {
                 content: "",
             };
             this.notes[note_id] = newNote;
+            this.events.emit("store/createNote");
+            return newNote;
         },
         editNote(noteMerge: any) {
             if (!noteMerge.note_id) {
@@ -171,6 +209,11 @@ export const noteStore = defineStore("noteStore", {
             };
             this.notesBuildOrder();
             // console.log("note mod => ", this.notes[noteMerge.note_id]);
+        },
+        moveNoteToNewTab(note_id, tab_id) {
+            const note = this.notes[note_id];
+            note.tab_id = tab_id;
+            this.notesBuildOrder();
         },
         notesBuildOrder() {
             Object.values(this.notes)
@@ -204,4 +247,9 @@ export async function storeInit() {
         },
         { detached: true },
     );
+
+    window.addEventListener("resize", () => {
+        store.calculateGrid();
+        console.log("resize", store.grid);
+    });
 }

@@ -25,7 +25,7 @@ Initial version 1.0
 
 [ ] include ul button?
 
-V1.1
+V1.1 released
 [x] setting for system wide font size;
 [x] grid snap would be good actually
 [x] scrollbard fix, make slender or smth nicer => no both note and sides
@@ -41,10 +41,48 @@ V1.1
 [x] trash not fixed
 
 
-V1.2
-[ ] change to interact js for better support...?
-[ ] mobile cant create note? / refining mobile version... / do I even need that? Will I publish the app?
-[ ] export json better have timestamp
-[ ] the bar - add auto swap to bottom if space non existant, also maybe always fixed width so its regular?
+V1.2 released
+[x] Change to snowflake ids...
+[x] fix focus loss issue when first editing the note
+[x] mobile cant create note? / [x] refining mobile version
+    [x] add note create in grid mode
+    [x] mobile when detected should go auto grid mode;
+[x] the bar - add auto swap to bottom if space non existant, also maybe always fixed width so its regular?
 (add anchor margin 0 auto and child positiing + check if postion from top less thatn 50px then bar at bottom instead...)
-[ ] fix focus loss issue
+
+V1.3 released
+[x] resize is whachy corners... why?
+[x] moving as shadow, to allow into the tabs... / is interact js still usable or meh?
+[x] in grid mode, switching a tab does not apply
+[x] note move to tab, somehow...
+
+
+
+V1.4
+[ ] need some create/edit date indication...
+[-] change to interact js for better support...?
+    test in separate branch, any important missing features?
+
+[ ] export json better have timestamp in file name
+    [ ] make txt format alongside (tab = file), exactly as in zonote
+    [ ] make export into zip so I can export all safely, with option to each note === separate file
+
+What to do with mobile version, do I need to make one at all? It was not my intention and I would have to find entirely different looking solution anyway...
+    - 3rd mode mobile, so it looks like in gnotes (full width or 2 rows at max and scroll down only), fixed top toolbar?
+    => its a good anyway, as its like fixed with better than whacky masonry...
+
+Add created/modified labels (toggleable probably)
+
+
+
+
+Better masonry and widths...
+1. Calculate number of columns, take a basis width, currently equals 300px;
+window.innerWidth module 300px;
+If have only one col then basis width === screen width, so no wasted space at right;
+For example have 2 cols, then two by 300px;
+
+If note native (in free mode) if less => then its 300px, if more, then take 2x300px; but at max for 2 cols so its not too much...
+But can extend for 3 cols probably...
+
+Height is always min note height and max at 2x basis;

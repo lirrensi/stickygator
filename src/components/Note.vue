@@ -1,5 +1,6 @@
 <style scoped>
 .note {
+    box-sizing: initial;
     /* position: absolute; */
     /* border: 1px solid white; */
     padding: 10px;
@@ -18,24 +19,8 @@ textarea {
     background-color: transparent;
     border: 0.5px solid rgba(255, 255, 255, 0.25);
 }
-
-.toolbar {
-    position: absolute;
-    width: 100%;
-    /* top: -50px; */
-    bottom: calc(100% - -10px);
-    left: 0;
-    border: 0 !important;
-    background-color: rgba(0, 0, 0, 0.2);
-
-    display: flex;
-    justify-content: space-between;
-}
-
-.ion-palette-dark .toolbar {
-    background-color: rgba(255, 255, 255, 0.8);
-}
 </style>
+<style></style>
 <template>
     <!-- <vue-draggable-resizable
         :parent="true"
@@ -81,105 +66,111 @@ textarea {
 
         <!-- <textarea v-model="note.content"></textarea> -->
         <div
-            v-show="isActivated"
-            class="toolbar"
-            :id="`toolbar-${noteId}`"
+            class="toolbar-anchor"
+            :id="`toolbar-anchor-${noteId}`"
         >
-            <!-- Default Quill buttons -->
-            <div>
-                <button class="ql-bold"></button>
-                <button class="ql-italic"></button>
-                <button class="ql-underline"></button>
-                <button class="ql-strike"></button>
-                <button class="ql-blockquote"></button>
-                <!-- <button class="ql-code-block"></button> -->
-                <!-- <select class="ql-header">
-                    <option value="1"></option>
-                    <option value="2"></option>
-                    <option selected></option>
-                </select> -->
-                <!-- <button
-                    class="ql-list"
-                    value="ordered"
-                ></button> -->
-                <!-- <button
-                    class="ql-list"
-                    value="bullet"
-                ></button> -->
-                <!-- <button
-                    class="ql-script"
-                    value="sub"
-                ></button> -->
-                <!-- <button
-                    class="ql-script"
-                    value="super"
-                ></button> -->
-                <!-- <button
-                    class="ql-indent"
-                    value="-1"
-                ></button> -->
-                <!-- <button
-                    class="ql-indent"
-                    value="+1"
-                ></button> -->
-                <!-- <select class="ql-size">
-                    <option value="small"></option>
-                    <option selected></option>
-                    <option value="large"></option>
-                    <option value="huge"></option>
-                </select> -->
+            <!-- :class="['toolbar', { 'toolbar-obstructed': toolbarObstructed }]" -->
+            <div
+                v-show="isActivated"
+                class="toolbar"
+                :id="`toolbar-${noteId}`"
+            >
+                <!-- Default Quill buttons -->
+                <div>
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                    <button class="ql-blockquote"></button>
+                    <!-- <button class="ql-code-block"></button> -->
+                    <!-- <select class="ql-header">
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option selected></option>
+                    </select> -->
+                    <!-- <button
+                        class="ql-list"
+                        value="ordered"
+                    ></button> -->
+                    <!-- <button
+                        class="ql-list"
+                        value="bullet"
+                    ></button> -->
+                    <!-- <button
+                        class="ql-script"
+                        value="sub"
+                    ></button> -->
+                    <!-- <button
+                        class="ql-script"
+                        value="super"
+                    ></button> -->
+                    <!-- <button
+                        class="ql-indent"
+                        value="-1"
+                    ></button> -->
+                    <!-- <button
+                        class="ql-indent"
+                        value="+1"
+                    ></button> -->
+                    <!-- <select class="ql-size">
+                        <option value="small"></option>
+                        <option selected></option>
+                        <option value="large"></option>
+                        <option value="huge"></option>
+                    </select> -->
 
-                <!-- <select class="ql-font">
-                    <option selected></option>
-                </select> -->
-                <!-- <select class="ql-color">
-                    <option selected></option>
-                </select> -->
-                <!-- <select class="ql-background">
-                    <option selected></option>
-                </select> -->
-                <!-- <select class="ql-align">
-                    <option selected></option>
-                    <option value="center"></option>
-                    <option value="right"></option>
-                    <option value="justify"></option>
-                </select> -->
+                    <!-- <select class="ql-font">
+                        <option selected></option>
+                    </select> -->
+                    <!-- <select class="ql-color">
+                        <option selected></option>
+                    </select> -->
+                    <!-- <select class="ql-background">
+                        <option selected></option>
+                    </select> -->
+                    <!-- <select class="ql-align">
+                        <option selected></option>
+                        <option value="center"></option>
+                        <option value="right"></option>
+                        <option value="justify"></option>
+                    </select> -->
 
-                <button
-                    class="ql-header"
-                    value="1"
-                ></button>
-                <button
-                    class="ql-header"
-                    value="2"
-                ></button>
+                    <button
+                        class="ql-header"
+                        value="1"
+                    ></button>
+                    <button
+                        class="ql-header"
+                        value="2"
+                    ></button>
 
-                <button
-                    class="ql-align"
-                    value="center"
-                ></button>
-                <button
-                    class="ql-align"
-                    value="right"
-                ></button>
+                    <button
+                        class="ql-align"
+                        value="center"
+                    ></button>
+                    <button
+                        class="ql-align"
+                        value="right"
+                    ></button>
 
-                <button class="ql-clean"></button>
-            </div>
-            <div style="display: flex; align-items: center">
-                <ColorPicker
-                    :pureColor="note.color"
-                    @pureColorChange="onColorChange"
-                />
+                    <button class="ql-clean"></button>
+                </div>
+                <div style="display: flex; align-items: center">
+                    <ColorPicker
+                        :pureColor="note.color"
+                        @pureColorChange="onColorChange"
+                    />
 
-                <ion-icon
-                    :style="{
-                        color: `#4b5563`,
-                        fontSize: `18px`,
-                        cursor: 'pointer',
-                    }"
-                    :icon="trashOutline"
-                    @click="onDeleteNote($event)"
-                ></ion-icon>
+                    <ion-icon
+                        :style="{
+                            color: `#4b5563`,
+                            fontSize: `18px`,
+                            cursor: 'pointer',
+                        }"
+                        :icon="trashOutline"
+                        @click="onDeleteNote($event)"
+                    ></ion-icon>
+                </div>
             </div>
         </div>
 
@@ -227,6 +218,7 @@ function noteClick(event: any) {
     store.setActiveNote(note.value.note_id);
 }
 
+const grid = computed(() => store.grid);
 function noteStyle(note: any) {
     const noteOrder = note.order ?? 0;
     console.log("noteOrder", noteOrder);
@@ -246,7 +238,25 @@ function noteStyle(note: any) {
     }
     if (store.display === "grid") {
         styles.marginBottom = "20px";
+
+        // experimental
+        // styles.width = Math.ceil(window.innerWidth / 4) + "px";
+        const basisWidth = grid.value.width;
+        // if (grid.value.cols > 1) {
+        //     if (note.width > basisWidth) {
+        //         styles.width = 2 * basisWidth + 20 + "px";
+        //     } else {
+        //         styles.width = basisWidth + "px";
+        //     }
+        // } else {
+        //     styles.width = basisWidth + "px";
+        // }
+        styles.width = basisWidth + "px";
+        styles.minHeight = "200px";
+        styles.maxHeight = 2 * basisWidth + "px";
     }
+
+    checkToolBarVisibility();
     return styles;
 }
 // note when clicked once = activated
@@ -268,28 +278,42 @@ onMounted(() => {
     // only do resizer options when in board mode
     $(function () {
         const elem: any = $(`#${noteId}`);
+        const canvas: any = $(`.canvas`);
         // allow resize even in grid mode
-        elem.resizable({
-            minHeight: 200,
-            minWidth: 200,
-            grid: [10, 10],
-            resize(event, ui) {
-                onResize(ui.size.width, ui.size.height);
-            },
-        });
         if (store.display === "board") {
+            // else set movable options
+
             elem.draggable({
                 grid: [10, 10],
-                containment: "parent",
+                // containment: "parent",
+                // containment: ".global-content-container",
                 cursor: "crosshair",
                 scroll: true,
                 // snap: true,
                 // handle: `toolbar-${noteId}`,
                 cancel: `#${noteId} .ql-container`,
-                drag: function (element, ui) {
+
+                // using on stop to run modification only after drag stops, as we also need to detect move to tab;
+                start: function (event, ui) {
+                    //canvas-modifier-drag
+                    canvas.addClass("canvas-modifier-drag");
+                    console.log("start", event, ui);
+                },
+                stop: function (element, ui) {
+                    console.log("stop", arguments);
                     // console.log("dragging note", arguments);
                     // console.log("dragObject", dragObject.position.top, dragObject.position.left);
+                    canvas.removeClass("canvas-modifier-drag");
                     onDrag(ui.position.left, ui.position.top);
+                },
+            });
+            elem.resizable({
+                minHeight: 200,
+                minWidth: 200,
+                grid: [10, 10],
+                stop(event, ui) {
+                    console.log("resizing", ui);
+                    onResize(ui.size.width, ui.size.height);
                 },
             });
         }
@@ -300,14 +324,53 @@ onMounted(() => {
             $(`#${noteId} .ql-editor`).focus();
         });
     });
+
+    // setupObserver(document.getElementById(`toolbar-${noteId}`));
 });
 
+function checkToolBarVisibility() {
+    const noteElement = document.getElementById(noteId);
+    const noteY = Number(noteElement?.style.top.replace("px", ""));
+    console.log("noteY", noteY);
+    const toolbarVisible = noteY >= 21;
+    const toolBarAnchor = document.getElementById(`toolbar-anchor-${noteId}`);
+    if (toolbarVisible) {
+        toolBarAnchor?.classList.remove("toolbar-obstructed");
+    } else {
+        toolBarAnchor?.classList.add("toolbar-obstructed");
+    }
+}
+
+let dragTimeout: any = null;
 function onDrag(x: number, y: number) {
-    // note.x = x;
-    // note.y = y;
+    // if y negative, i.e moved too far up but not completed, then reset position;
+    if (y < 0) {
+        y = 10;
+    }
+    if (x < 0) {
+        x = 10;
+    }
     x = roundToNearestTen(x);
     y = roundToNearestTen(y);
     store.editNote({ ...note.value, x, y });
+
+    clearTimeout(dragTimeout);
+    dragTimeout = setTimeout(() => {}, 500);
+
+    // const toolBar = document.getElementById(`toolbar-${noteId}`);
+    // const toolBarAnchor = document.getElementById(`toolbar-anchor-${noteId}`);
+    // const toolbarVisible = isElementFullyVisible(toolBar);
+    // console.log("toolbarVisible", toolbarVisible);
+
+    // console.log("onDrag", x, y);
+    // const toolbarVisible = y >= 21;
+    // if (toolbarVisible) {
+    //     toolBarAnchor?.classList.remove("toolbar-obstructed");
+    // } else {
+    //     toolBarAnchor?.classList.add("toolbar-obstructed");
+    // }
+
+    checkToolBarVisibility();
 }
 function onResize(width: number, height: number) {
     // for this also need to update local
@@ -319,6 +382,11 @@ function onResize(width: number, height: number) {
 }
 function onContentChange(content: string) {
     store.editNote({ ...note.value, content });
+    // small hack to prevent focus lose
+    setTimeout(() => {
+        // @ts-ignore
+        quillRef?.value?.getQuill().focus();
+    }, 100);
 }
 
 const quillOptions = {
@@ -357,4 +425,62 @@ function onDeleteNote(event) {
 const globalFontSize = computed(() => {
     return store.appSettings.fontSize;
 });
+
+const toolbarObstructed = ref(false);
+function setupObserver(element) {
+    if (!element) {
+        console.error("Element not found.");
+        return;
+    }
+
+    // Callback function to execute when visibility changes
+    // Flag to prevent infinite loop
+    let isHandlingVisibility = false;
+
+    const intersectionCallback = entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && entry.intersectionRatio === 1) {
+                if (!isHandlingVisibility) {
+                    isHandlingVisibility = true;
+                    console.log("Element is fully visible on screen.");
+                    toolbarObstructed.value = false;
+                    element.classList.remove("toolbar-obstructed");
+                    setTimeout(() => (isHandlingVisibility = false), 100); // Reset flag after handling
+                }
+            } else {
+                if (!isHandlingVisibility) {
+                    isHandlingVisibility = true;
+                    console.log("Element is not fully visible on screen.");
+                    toolbarObstructed.value = true;
+                    element.classList.add("toolbar-obstructed");
+                    setTimeout(() => (isHandlingVisibility = false), 100); // Reset flag after handling
+                }
+            }
+        });
+    };
+
+    // Options for the observer
+    const observerOptions = {
+        root: null, // Use the viewport as the root
+        threshold: 1.0, // Trigger the callback when 100% of the target is visible
+    };
+
+    // Create the Intersection Observer
+    const observer = new IntersectionObserver(intersectionCallback, observerOptions);
+
+    // Start observing the target element
+    observer.observe(element);
+}
+
+function isElementFullyVisible(element, container = document.querySelector(".canvas")) {
+    var rect = element.getBoundingClientRect();
+    var containerRect: any = container?.getBoundingClientRect();
+
+    return (
+        rect.top >= containerRect.top &&
+        rect.left >= containerRect.left &&
+        rect.bottom <= containerRect.bottom &&
+        rect.right <= containerRect.right
+    );
+}
 </script>

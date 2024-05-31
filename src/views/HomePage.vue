@@ -1,42 +1,4 @@
 <style scoped>
-.tab-area-container {
-    width: 100%;
-    height: 40px;
-    background-color: rgb(220, 220, 220);
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    padding: 4px;
-}
-.tab-area {
-    display: flex;
-    flex-direction: row;
-}
-.tab {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 10px;
-    border: 1px solid rgba(100, 100, 100, 0.25);
-    border-bottom: 3px solid rgba(100, 100, 100, 0.1);
-    margin-right: 2px;
-}
-.tab.active {
-    border-bottom: 3px solid rgb(100, 100, 100);
-}
-
-.ion-palette-dark .tab-area-container {
-    background-color: rgb(38, 38, 38);
-    border-bottom: 1px solid rgba(200, 200, 200, 0.25);
-}
-.ion-palette-dark .tab {
-    border: 1px solid rgba(200, 200, 200, 0.25);
-    border-bottom: 3px solid rgba(200, 200, 200, 0.1);
-}
-.ion-palette-dark .tab.active {
-    border-bottom: 3px solid rgba(255, 255, 255);
-}
-
 .canvas-wrapper {
     width: 100%;
     height: calc(100% - 40px);
@@ -57,16 +19,29 @@
                         ></ion-icon>
                     </ion-button>
                 </ion-buttons>
-                <!-- <ion-segment value="all">
-                    <ion-segment-button value="all">
-                        <ion-label>All</ion-label>
+                <!-- <ion-segment value="Classic">
+                    <ion-segment-button value="Classic">
+                        <ion-label>Classic</ion-label>
                     </ion-segment-button>
-                    <ion-segment-button value="favorites">
-                        <ion-label>Favorites</ion-label>
+                    <ion-segment-button value="Masonry">
+                        <ion-label>Masonry</ion-label>
+                    </ion-segment-button>
+                    <ion-segment-button value="Fixed">
+                        <ion-label>Fixed</ion-label>
                     </ion-segment-button>
                 </ion-segment> -->
-                <ion-title>Sticky Board</ion-title>
+
+                <!-- <ion-title>Sticky Board</ion-title> -->
                 <ion-buttons slot="end">
+                    <ion-button
+                        v-if="store.display === 'grid'"
+                        @click="createNote()"
+                    >
+                        <ion-icon
+                            slot="icon-only"
+                            :icon="addOutline"
+                        ></ion-icon>
+                    </ion-button>
                     <ion-button @click="settingsModalControl(true)">
                         <ion-icon
                             slot="icon-only"
@@ -82,36 +57,10 @@
             :scrollX="false"
             :scrollY="false"
         >
-            <div class="tab-area-container">
-                <div class="tab-area">
-                    <div
-                        v-for="tab in tabs"
-                        :class="['tab', tab.tab_id === store.currentTabIndex ? 'active' : '']"
-                        :key="tab.tab_id"
-                        :data-id="tab.tab_id"
-                        @click="store.selectTab(tab.tab_id)"
-                        @contextmenu.prevent="tabActionSheet(tab)"
-                    >
-                        {{ tab.name }}
-                        [{{ amountNotes(tab) }}]
-                    </div>
-                </div>
-                <!-- <vue-draggable-next
-                    class="tab-area"
-                    :list="tabs"
-                    @change="onTabMoved"
-                >
-                </vue-draggable-next> -->
-                <div
-                    @click="newTabPrompt"
-                    class="tab"
-                >
-                    +
-                </div>
-            </div>
-            <div class="canvas-wrapper">
-                <Canvas :tab="store.currentTab"></Canvas>
-            </div>
+            <Tabs></Tabs>
+            <Canvas :tab="store.currentTab"></Canvas>
+            <!-- <div class="canvas-wrapper">
+            </div> -->
         </ion-content>
 
         <!-- settings modal -->
@@ -197,6 +146,14 @@
                                 slot="content"
                             >
                                 <p>
+                                    1.3 (31.05.2024) Added move note to tab, fix resize jitter, fix masonry not properly
+                                    loaded upon switching tabs.
+                                </p>
+                                <p>
+                                    1.2 (24.05.2024) Added mobile version fixes, better grid layout, ability to add note
+                                    in grid, toolbar visibility when obstruct, fix losing focus on first edit.
+                                </p>
+                                <p>
                                     1.1 (19.05.2024) Added better scrollbars, font option, small changes to styles, fix
                                     copy/pase between notes, ctrlS fix, theme fix, snap to grid, service worker for
                                     offline, hacks for mobile version...
@@ -228,13 +185,16 @@
                         <ion-label>Click on empty area to create a note</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>Do not forget to create a new tab</ion-label>
+                        <ion-label>Do not forget to create a new tab if needed</ion-label>
                     </ion-item>
                     <ion-item>
-                        <ion-label>You can rename or delete a tab by right click</ion-label>
+                        <ion-label>You can rename or delete a tab by right click, also reorder them</ion-label>
                     </ion-item>
                     <ion-item>
                         <ion-label>Select a note and drag by toolbar or by the edge. Also can resize.</ion-label>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Move note to tab to move there.</ion-label>
                     </ion-item>
                     <ion-item>
                         <ion-label>Click on trash icon or move note to top right to delete</ion-label>
@@ -283,128 +243,24 @@ import {
     actionSheetController,
     IonInput,
 } from "@ionic/vue";
-import { homeOutline, settingsOutline, tvOutline, gridOutline } from "ionicons/icons";
+import { homeOutline, settingsOutline, tvOutline, gridOutline, addOutline } from "ionicons/icons";
 import { VueDraggableNext } from "vue-draggable-next";
 import Canvas from "@/components/Canvas.vue";
+import Tabs from "@/components/Tabs.vue";
 
 import { makeDownloadFile, manualImportFile } from "../util/file";
 
 import { noteStore, AppSettings } from "@/store/store";
 const store = noteStore();
 
-const tabs = computed(() => Object.values(store.tabs).sort((a, b) => a.order - b.order));
-const amountNotes = tab => Object.values(store.notes).filter(note => note.tab_id === tab.tab_id).length;
-
-// tabs controls
-const newTabPrompt = async () => {
-    const alert = await alertController.create({
-        header: "Create a new tab",
-        inputs: [
-            {
-                placeholder: "Name",
-                attributes: {
-                    maxlength: 24,
-                },
-            },
-        ],
-        buttons: [
-            {
-                text: "Cancel",
-                role: "cancel",
-                handler: () => {
-                    console.log("Alert canceled");
-                },
-            },
-            {
-                text: "OK",
-                role: "confirm",
-                handler: data => {
-                    console.log("Alert confirmed", data[0]);
-                    if (data[0].length >= 2) {
-                    }
-                    store.createTab(data[0]);
-                },
-            },
-        ],
-    });
-
-    await alert.present();
-};
-const tabActionSheet = async tab => {
-    const actionSheet = await actionSheetController.create({
-        header: "Tab",
-        buttons: [
-            {
-                text: "Rename",
-                data: {
-                    action: "share",
-                },
-                handler: async () => {
-                    const alert = await alertController.create({
-                        header: "Rename tab",
-                        inputs: [
-                            {
-                                placeholder: "Name",
-                                value: tab.name,
-                                attributes: {
-                                    maxlength: 24,
-                                },
-                            },
-                        ],
-                        buttons: [
-                            {
-                                text: "Cancel",
-                                role: "cancel",
-                                handler: () => {
-                                    console.log("Rename canceled");
-                                },
-                            },
-                            {
-                                text: "OK",
-                                role: "confirm",
-                                handler: data => {
-                                    console.log("Alert confirmed", data[0]);
-                                    if (data[0].length >= 2) {
-                                    }
-                                    store.renameTab(tab, data[0]);
-                                },
-                            },
-                        ],
-                    });
-                    alert.present();
-                },
-            },
-            {
-                text: "Delete",
-                role: "destructive",
-                data: {
-                    action: "delete",
-                },
-                handler: () => {
-                    const message = `
-                    Are you sure you want to delete ${tab.name} tab? 
-                    All notes will be deleted. 
-                    It has ${amountNotes(tab)} notes.
-                    No undo.
-                    `;
-                    if (confirm(message)) {
-                        store.deleteTab(tab);
-                    }
-                },
-            },
-
-            {
-                text: "Cancel",
-                role: "cancel",
-                data: {
-                    action: "cancel",
-                },
-            },
-        ],
-    });
-
-    await actionSheet.present();
-};
+// create note when in grid mode
+function createNote() {
+    const newNote = store.createNote({ x: 0, y: 0 });
+    if (newNote?.note_id) {
+        // scroll to new note as it would be added at bottom
+        setTimeout(() => {}, 100);
+    }
+}
 
 // for settings panel
 const settingsModalOpen = ref(false);
@@ -458,25 +314,6 @@ onMounted(() => {
     setTimeout(() => {
         appSettings.value = store.appSettings;
     }, 250);
-
-    $(function () {
-        const tabArea: any = $(".tab-area");
-        tabArea.sortable({
-            axis: "x",
-            tolerance: "pointer",
-            update(event, ui) {
-                console.log("tabArea.update", event, ui);
-                const newSortedTabs = $(".tab")
-                    .map(function () {
-                        return $(this).data("id");
-                    })
-                    .get()
-                    .filter(id => id);
-                console.log("newSortedTabs", newSortedTabs);
-                store.sortTabs(newSortedTabs);
-            },
-        });
-    });
 
     if (!localStorage.getItem("sticky-board-tutorial")) {
         setTimeout(() => {
