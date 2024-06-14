@@ -81,12 +81,12 @@
             :key="note.note_id"
             :note="note.note_id"
         />
-        <div
+        <!-- <div
             v-if="store.display === 'board'"
             id="droppable-delete"
         >
             <ion-icon :icon="trashOutline"></ion-icon>
-        </div>
+        </div> -->
         <!-- dipplay when in grid mode -->
         <div
             v-if="store.display === 'grid'"
@@ -106,7 +106,6 @@ import { ref, defineEmits, onMounted, watch, computed, onBeforeUnmount } from "v
 import { IonReorderGroup, IonIcon } from "@ionic/vue";
 import { trashOutline } from "ionicons/icons";
 
-import MasonryWall from "@yeger/vue-masonry-wall";
 import Note from "./Note.vue";
 import { roundToNearestTen } from "../util/math";
 import { eventBus, noteStore } from "../store/store";
@@ -149,6 +148,7 @@ function initMasonry() {
         if (masonryInstance) {
             masonryInstance.masonry("destroy");
         }
+        // @ts-ignore
         masonryInstance = $("#masonry").masonry({
             // options...
             itemSelector: ".note-selector",
@@ -162,33 +162,6 @@ function initMasonry() {
     }, 100);
 }
 function applyIntegrations() {
-    if (store.display === "board") {
-        const droppableElement: any = $("#droppable-delete");
-        droppableElement.droppable({
-            accept: ".note",
-            tolerance: "touch",
-            classes: {
-                "ui-droppable-active": "ui-state-active",
-                "ui-droppable-hover": "ui-state-hover",
-            },
-            drop: function (event, ui) {
-                const noteId = ui.draggable.data("note-id");
-                console.log("dropped", noteId);
-                if (confirm("Are you sure you want to delete this note?")) {
-                    const note = store.notes[noteId];
-                    store.deleteNote(note);
-                }
-                // remove class even if fail
-                ui.draggable.removeClass("ui-state-highlight");
-            },
-            out: function (event, ui) {
-                ui.draggable.removeClass("ui-state-highlight");
-            },
-            over: function (event, ui) {
-                ui.draggable.addClass("ui-state-highlight");
-            },
-        });
-    }
     if (store.display === "grid") {
         console.log("initMasonry");
         initMasonry();

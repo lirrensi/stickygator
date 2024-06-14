@@ -58,12 +58,23 @@ V1.3 released
 
 
 
-V1.4
-[ ] need some create/edit date indication...
+V1.4 released;
+[x] moved tabs to header saving space; Deletable drop are also in header, trash area
+[x] when moving to a new tab, need to use the last position / reset position? or let it stay the pinned to top? => leave as is;
+[x] fixes overlapping controls
+[x] export json better have timestamp in file name
+[x] txt forever export;
+[x] need some create/edit date indication...
+[x] on note drag, small opacity, so also can see notes under...
+[x] new note color random, based on some preselection
+
+
+
+
 [-] change to interact js for better support...?
     test in separate branch, any important missing features?
 
-[ ] export json better have timestamp in file name
+
     [ ] make txt format alongside (tab = file), exactly as in zonote
     [ ] make export into zip so I can export all safely, with option to each note === separate file
 

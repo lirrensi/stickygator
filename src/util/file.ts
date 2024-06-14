@@ -1,6 +1,6 @@
-export function makeDownloadFile(data: string, name: string) {
+export function makeDownloadFile(data: string, name: string, type: string = "application/json") {
     // Create a blob with the JSON string
-    const blob = new Blob([data], { type: "application/json" });
+    const blob = new Blob([data], { type });
 
     // Create a link element
     const a = document.createElement("a");

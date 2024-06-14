@@ -9,7 +9,10 @@
 
 <template>
     <ion-page>
-        <ion-header :translucent="false">
+        <ion-header
+            :translucent="false"
+            mode="ios"
+        >
             <ion-toolbar>
                 <ion-buttons slot="start">
                     <ion-button @click="store.toggleDisplayType()">
@@ -30,6 +33,8 @@
                         <ion-label>Fixed</ion-label>
                     </ion-segment-button>
                 </ion-segment> -->
+
+                <Tabs></Tabs>
 
                 <!-- <ion-title>Sticky Board</ion-title> -->
                 <ion-buttons slot="end">
@@ -57,7 +62,6 @@
             :scrollX="false"
             :scrollY="false"
         >
-            <Tabs></Tabs>
             <Canvas :tab="store.currentTab"></Canvas>
             <!-- <div class="canvas-wrapper">
             </div> -->
@@ -113,12 +117,30 @@
                     </ion-item>
                     <ion-item
                         button
-                        @click="importFromJson"
+                        @click="importFromJson(false)"
                     >
-                        <ion-label color="warning">Import from JSON</ion-label>
+                        <ion-label color="warning">Import from JSON (overwrite current data)</ion-label>
                     </ion-item>
-                    <ion-item button>
-                        <ion-label color="danger">Delete all data</ion-label>
+                    <ion-item
+                        button
+                        @click="importFromJson(true)"
+                    >
+                        <ion-label color="warning">Import from JSON (merge with current data)</ion-label>
+                    </ion-item>
+                    <ion-item
+                        button
+                        @click="exportToTXT()"
+                    >
+                        <ion-label color="warning"
+                            >Export to TXT file (use as final export, cannot restore from it)</ion-label
+                        >
+                    </ion-item>
+
+                    <ion-item
+                        button
+                        @click="deleteAll()"
+                    >
+                        <ion-label color="danger">Delete all data. Cannot be undone. Make a backup first.</ion-label>
                     </ion-item>
 
                     <ion-list-header mode="ios">
@@ -145,6 +167,12 @@
                                 class="ion-padding"
                                 slot="content"
                             >
+                                <p>
+                                    1.4 (14.06.2024) Moved active tabs to header to save space, better trash area, fix
+                                    some controls overlap, export better to json, export final to txt file, import
+                                    option to merge, note time created/ modified display, note drag now opacity to show
+                                    whats under, new note now random color.
+                                </p>
                                 <p>
                                     1.3 (31.05.2024) Added move note to tab, fix resize jitter, fix masonry not properly
                                     loaded upon switching tabs.
@@ -244,7 +272,7 @@ import {
     IonInput,
 } from "@ionic/vue";
 import { homeOutline, settingsOutline, tvOutline, gridOutline, addOutline } from "ionicons/icons";
-import { VueDraggableNext } from "vue-draggable-next";
+
 import Canvas from "@/components/Canvas.vue";
 import Tabs from "@/components/Tabs.vue";
 
@@ -276,16 +304,30 @@ function tutorialModalControl(open = true) {
 
 function exportToJson() {
     const json = store.exportToJson();
-    makeDownloadFile(json, "sticky-board.json");
+    const date = new Date().toISOString().replace("T", "_");
+    makeDownloadFile(json, `sssticky_board_${date}.json`);
 }
-async function importFromJson() {
+function exportToTXT() {
+    const str = store.exportToTxt();
+    const date = new Date().toISOString().replace("T", "_");
+    makeDownloadFile(str, `sssticky_board_fullExport_${date}.txt`);
+}
+async function importFromJson(merge = false) {
     const parsed = await manualImportFile();
     console.log("importFromJson", parsed);
     if (parsed) {
-        await store.importFromJson(parsed);
+        await store.importFromJson(parsed, merge);
         alert("Import successful");
     } else {
         alert("Import failed");
+    }
+}
+async function deleteAll() {
+    if (confirm("DELETE EVERYTHING?") && prompt("Type '1' to confirm") === "1") {
+        await store.dropDatabase();
+        setTimeout(() => {
+            window.location.reload();
+        }, 100);
     }
 }
 

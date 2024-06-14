@@ -4,6 +4,7 @@ import { Snowflake } from "@theinternetfolks/snowflake";
 import mitt from "mitt";
 import localforage from "localforage";
 import { isPlatform } from "@ionic/vue";
+import { noteRandomColor } from "../util/ui";
 
 export interface TabList {
     [key: string]: Tab;
@@ -22,6 +23,7 @@ export interface StickyNote {
     width: number;
     height: number;
     color: string;
+    created_at?: number;
     modified_at: number; //js ms timestamp
     content: string;
     pinned?: boolean; // will be always on top...
@@ -135,7 +137,45 @@ export const noteStore = defineStore("noteStore", {
                 appSettings: this.appSettings,
             });
         },
-        async importFromJson(store) {
+        exportToTxt() {
+            let megaString = ``;
+            const notes = Object.values(this.notes);
+            notes.forEach(note => {
+                // const noteElements = `
+                // ========= Note ==========
+                // Tab: ${this.tabs[note.tab_id].name}
+                // Created at: ${new Date(note.created_at || note.modified_at).toLocaleString()}
+                // Modified at: ${new Date(note.modified_at).toLocaleString()}
+                // Color: ${note.color}
+
+                // ${note.content}
+                // ==========================
+                // `;
+                const noteElements = [
+                    "========= Note ==========",
+                    `Tab: ${this.tabs[note.tab_id].name}`,
+                    `Created at: ${new Date(note.created_at || note.modified_at).toLocaleString()}`,
+                    `Modified at: ${new Date(note.modified_at).toLocaleString()}`,
+                    `Color: ${note.color}`,
+                    "\n",
+                    note.content,
+                    "========================",
+                    "\n",
+                ];
+                noteElements.forEach(element => {
+                    megaString += element;
+                    megaString += "\n";
+                });
+                // megaString += noteString;
+            });
+            return megaString;
+        },
+        async importFromJson(store, merge = false) {
+            if (merge) {
+                this.tabs = { ...this.tabs, ...store.tabs };
+                this.notes = { ...this.notes, ...store.notes };
+                this.appSettings = { ...this.appSettings, ...store.appSettings };
+            }
             await this.onSave(store);
             this.init();
         },
@@ -182,6 +222,7 @@ export const noteStore = defineStore("noteStore", {
                 return;
             }
             const note_id = Number(Snowflake.generate());
+            const date = Date.now();
             const newNote: StickyNote = {
                 note_id: note_id,
                 tab_id: this.currentTabIndex,
@@ -189,8 +230,10 @@ export const noteStore = defineStore("noteStore", {
                 y: coords.y,
                 width: 200,
                 height: 200,
-                color: this.appSettings.darkTheme ? "#222" : "#ddd",
-                modified_at: Date.now(),
+                // color: this.appSettings.darkTheme ? "#222" : "#ddd",
+                color: noteRandomColor(),
+                created_at: date,
+                modified_at: date,
                 content: "",
             };
             this.notes[note_id] = newNote;
@@ -229,6 +272,9 @@ export const noteStore = defineStore("noteStore", {
         },
         saveAppSettings(appSettings: AppSettings) {
             this.appSettings = appSettings;
+        },
+        async dropDatabase() {
+            return await localforage.clear();
         },
     },
 });

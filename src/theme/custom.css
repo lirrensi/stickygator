@@ -45,6 +45,9 @@ body {
 }
 
 /* note toolbar global styles */
+.ql-toolbar.ql-snow {
+    padding: unset;
+}
 .toolbar-anchor {
     position: absolute;
     top: 0;
@@ -72,8 +75,8 @@ body {
     border: 0 !important;
     background-color: rgba(0, 0, 0, 0.2);
 
-    display: flex;
-    justify-content: space-between;
+    /* display: flex; */
+    /* justify-content: space-between; */
 }
 .toolbar-obstructed {
     /* left: 0 !important; */
@@ -95,11 +98,9 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
 }
 
-
 .canvas-background {
     background-color: #f7f9fc;
 }
 .ion-palette-dark .canvas-background {
     background-color: #212121;
-    
 }

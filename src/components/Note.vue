@@ -5,9 +5,17 @@
     /* border: 1px solid white; */
     padding: 10px;
     position: relative;
+    opacity: 0.96;
+}
+.note.dragging {
+    opacity: 0.5;
 }
 .is-activated {
     box-shadow: 0 0 2px 2px white;
+    opacity: 1;
+}
+.is-activated.dragging {
+    opacity: 0.8;
 }
 textarea {
     padding: 5px;
@@ -18,6 +26,15 @@ textarea {
     /* Add additional styling for the textarea if needed */
     background-color: transparent;
     border: 0.5px solid rgba(255, 255, 255, 0.25);
+}
+
+.note-info {
+    padding: 2px 10px;
+    font-size: 10px;
+    opacity: 0.5;
+
+    display: flex;
+    justify-content: space-between;
 }
 </style>
 <style></style>
@@ -70,108 +87,133 @@ textarea {
             :id="`toolbar-anchor-${noteId}`"
         >
             <!-- :class="['toolbar', { 'toolbar-obstructed': toolbarObstructed }]" -->
-            <div
+            <!-- <div
                 v-show="isActivated"
                 class="toolbar"
                 :id="`toolbar-${noteId}`"
             >
-                <!-- Default Quill buttons -->
-                <div>
-                    <button class="ql-bold"></button>
-                    <button class="ql-italic"></button>
-                    <button class="ql-underline"></button>
-                    <button class="ql-strike"></button>
-                    <button class="ql-blockquote"></button>
-                    <!-- <button class="ql-code-block"></button> -->
-                    <!-- <select class="ql-header">
-                        <option value="1"></option>
-                        <option value="2"></option>
-                        <option selected></option>
-                    </select> -->
-                    <!-- <button
-                        class="ql-list"
-                        value="ordered"
-                    ></button> -->
-                    <!-- <button
-                        class="ql-list"
-                        value="bullet"
-                    ></button> -->
-                    <!-- <button
-                        class="ql-script"
-                        value="sub"
-                    ></button> -->
-                    <!-- <button
-                        class="ql-script"
-                        value="super"
-                    ></button> -->
-                    <!-- <button
-                        class="ql-indent"
-                        value="-1"
-                    ></button> -->
-                    <!-- <button
-                        class="ql-indent"
-                        value="+1"
-                    ></button> -->
-                    <!-- <select class="ql-size">
-                        <option value="small"></option>
-                        <option selected></option>
-                        <option value="large"></option>
-                        <option value="huge"></option>
-                    </select> -->
+                
+            </div> -->
+            <ion-grid
+                v-show="isActivated"
+                class="toolbar"
+                :id="`toolbar-${noteId}`"
+            >
+                <ion-row>
+                    <ion-col size="8">
+                        <button class="ql-bold"></button>
+                        <button class="ql-italic"></button>
+                        <button class="ql-underline"></button>
+                        <button class="ql-strike"></button>
+                        <button class="ql-blockquote"></button>
+                        <!-- <button class="ql-code-block"></button> -->
+                        <!-- <select class="ql-header">
+                    <option value="1"></option>
+                    <option value="2"></option>
+                    <option selected></option>
+                </select> -->
+                        <!-- <button
+                    class="ql-list"
+                    value="ordered"
+                ></button> -->
+                        <!-- <button
+                    class="ql-list"
+                    value="bullet"
+                ></button> -->
+                        <!-- <button
+                    class="ql-script"
+                    value="sub"
+                ></button> -->
+                        <!-- <button
+                    class="ql-script"
+                    value="super"
+                ></button> -->
+                        <!-- <button
+                    class="ql-indent"
+                    value="-1"
+                ></button> -->
+                        <!-- <button
+                    class="ql-indent"
+                    value="+1"
+                ></button> -->
+                        <!-- <select class="ql-size">
+                    <option value="small"></option>
+                    <option selected></option>
+                    <option value="large"></option>
+                    <option value="huge"></option>
+                </select> -->
 
-                    <!-- <select class="ql-font">
-                        <option selected></option>
-                    </select> -->
-                    <!-- <select class="ql-color">
-                        <option selected></option>
-                    </select> -->
-                    <!-- <select class="ql-background">
-                        <option selected></option>
-                    </select> -->
-                    <!-- <select class="ql-align">
-                        <option selected></option>
-                        <option value="center"></option>
-                        <option value="right"></option>
-                        <option value="justify"></option>
-                    </select> -->
+                        <!-- <select class="ql-font">
+                    <option selected></option>
+                </select> -->
+                        <!-- <select class="ql-color">
+                    <option selected></option>
+                </select> -->
+                        <!-- <select class="ql-background">
+                    <option selected></option>
+                </select> -->
+                        <!-- <select class="ql-align">
+                    <option selected></option>
+                    <option value="center"></option>
+                    <option value="right"></option>
+                    <option value="justify"></option>
+                </select> -->
 
-                    <button
-                        class="ql-header"
-                        value="1"
-                    ></button>
-                    <button
-                        class="ql-header"
-                        value="2"
-                    ></button>
+                        <button
+                            class="ql-header"
+                            value="1"
+                        ></button>
+                        <button
+                            class="ql-header"
+                            value="2"
+                        ></button>
 
-                    <button
-                        class="ql-align"
-                        value="center"
-                    ></button>
-                    <button
-                        class="ql-align"
-                        value="right"
-                    ></button>
+                        <button
+                            class="ql-align"
+                            value="center"
+                        ></button>
+                        <button
+                            class="ql-align"
+                            value="right"
+                        ></button>
 
-                    <button class="ql-clean"></button>
-                </div>
-                <div style="display: flex; align-items: center">
-                    <ColorPicker
-                        :pureColor="note.color"
-                        @pureColorChange="onColorChange"
-                    />
-
-                    <ion-icon
-                        :style="{
-                            color: `#4b5563`,
-                            fontSize: `18px`,
-                            cursor: 'pointer',
-                        }"
-                        :icon="trashOutline"
-                        @click="onDeleteNote($event)"
-                    ></ion-icon>
-                </div>
-            </div>
+                        <button class="ql-clean"></button>
+                        <div></div>
+                    </ion-col>
+                    <ion-col
+                        size="4"
+                        style="display: flex; align-items: center"
+                    >
+                        <ColorPicker
+                            :pureColor="note.color"
+                            @pureColorChange="onColorChange"
+                        />
+                        <ion-icon
+                            :style="{
+                                color: `#4b5563`,
+                                fontSize: `18px`,
+                                cursor: 'pointer',
+                            }"
+                            :icon="trashOutline"
+                            @click="onDeleteNote($event)"
+                        ></ion-icon>
+                        <!-- <div>
+                        </div>
+                        <div>
+                        </div> -->
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="note-info">
+                        <span :title="`created: ${moment(note.created_at || note.modified_at)}`"
+                            >created: {{ moment(note.created_at || note.modified_at).format("YY-MM-DD  hh:mm") }}</span
+                        >
+                        <span :title="`modified: ${moment(note.modified_at)}`"
+                            >modified: {{ moment(note.modified_at).format("YY-MM-DD  hh:mm") }}</span
+                        >
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
         </div>
 
         <!-- :toolbar="quillToolbarOptions" -->
@@ -180,7 +222,7 @@ textarea {
 </template>
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
-import { IonIcon } from "@ionic/vue";
+import { IonIcon, IonCol, IonGrid, IonRow } from "@ionic/vue";
 
 import { trashOutline } from "ionicons/icons";
 
@@ -189,6 +231,7 @@ import Quill from "quill";
 
 import { ColorPicker } from "vue3-colorpicker";
 import { readableColor } from "polished";
+import moment from "moment";
 import { roundToNearestTen } from "../util/math";
 
 import { eventBus, noteStore } from "../store/store";
@@ -298,6 +341,9 @@ onMounted(() => {
                     //canvas-modifier-drag
                     canvas.addClass("canvas-modifier-drag");
                     console.log("start", event, ui);
+
+                    noteClick(event);
+                    $(".note").addClass("dragging");
                 },
                 stop: function (element, ui) {
                     console.log("stop", arguments);
@@ -305,6 +351,8 @@ onMounted(() => {
                     // console.log("dragObject", dragObject.position.top, dragObject.position.left);
                     canvas.removeClass("canvas-modifier-drag");
                     onDrag(ui.position.left, ui.position.top);
+
+                    $(".note").removeClass("dragging");
                 },
             });
             elem.resizable({
@@ -332,7 +380,7 @@ function checkToolBarVisibility() {
     const noteElement = document.getElementById(noteId);
     const noteY = Number(noteElement?.style.top.replace("px", ""));
     console.log("noteY", noteY);
-    const toolbarVisible = noteY >= 21;
+    const toolbarVisible = noteY >= 51;
     const toolBarAnchor = document.getElementById(`toolbar-anchor-${noteId}`);
     if (toolbarVisible) {
         toolBarAnchor?.classList.remove("toolbar-obstructed");
