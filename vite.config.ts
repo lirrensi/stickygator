@@ -1,16 +1,18 @@
-import legacy from "@vitejs/plugin-legacy";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
 import { defineConfig } from "vite";
+
+// Plugin imports
+import legacy from "@vitejs/plugin-legacy";
 import { VitePWA } from "vite-plugin-pwa";
 
-// https://vitejs.dev/config/
-export default ({ mode }) =>
-    defineConfig({
-        base: mode === "browser" ? "/sssticky/" : "/",
+// Function to create a list of plugins based on the mode
+function createPlugins(mode) {
+    const plugins: any = [vue()];
 
-        plugins: [
-            vue(),
+    // Conditionally add plugins if mode is "browser"
+    if (mode === "browser") {
+        plugins.push(
             legacy(),
             VitePWA({
                 registerType: "autoUpdate",
@@ -49,7 +51,17 @@ export default ({ mode }) =>
                     globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
                 },
             }),
-        ],
+        );
+    }
+
+    return plugins;
+}
+
+// Export the final configuration
+export default ({ mode }) =>
+    defineConfig({
+        base: mode === "browser" ? "/sssticky/" : "./",
+        plugins: createPlugins(mode),
         resolve: {
             alias: {
                 "@": path.resolve(__dirname, "./src"),

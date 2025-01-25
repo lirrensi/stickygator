@@ -1,3 +1,6 @@
+import { noteStore } from "../store/store";
+import { noteDeleteHandler } from "./ui";
+
 export function overrideCtrlS() {
     document.addEventListener("keydown", function (event) {
         if (event.ctrlKey && event.code === "KeyS") {
@@ -61,4 +64,17 @@ export function mapTouchEvents() {
         document.addEventListener("touchcancel", touchHandler, true);
     }
     init();
+}
+
+export function addDeleteHandler() {
+    // add event on DELETE button for desktop
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Delete" || event.key === "Backspace") {
+            const store = noteStore();
+            // here we must ping the actual note, to determine if its text edited focused or not
+            // we want to trigger note delete only when we focused it by edge and not by text
+            // as with text editing, DELETE AND BACKSPACE keys are used for both.
+            store.events.emit("ev/note/requestDelete");
+        }
+    });
 }

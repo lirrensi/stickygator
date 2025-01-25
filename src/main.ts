@@ -8,13 +8,17 @@ import { isPlatform } from "@ionic/vue";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+import { createI18n } from "vue-i18n";
+
 import App from "./App.vue";
 import router from "./router";
 import { storeInit } from "./store/store";
 
+import i18n from "./i18n";
+
 import { IonicVue } from "@ionic/vue";
 
-import { overrideCtrlS, mapTouchEvents } from "./util/keyboard";
+import { overrideCtrlS, mapTouchEvents, addDeleteHandler } from "./util/keyboard";
 
 // CSS declarations
 
@@ -59,15 +63,23 @@ import "./theme/custom.css";
 // APP INITS
 
 const pinia = createPinia();
-const app = createApp(App).use(IonicVue).use(router).use(pinia);
+const app = createApp(App);
+
+app.use(IonicVue);
+app.use(router);
+app.use(pinia);
+app.use(i18n);
 
 router.isReady().then(() => {
+    // get current data right from here before we continue;
     storeInit();
     app.mount("#app");
 });
 
 // GLOBAL HANDLERS
-overrideCtrlS();
 if (isPlatform("mobile")) {
     mapTouchEvents();
+} else {
+    overrideCtrlS();
+    // addDeleteHandler(); no use for now, listen in each note instead;
 }

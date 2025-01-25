@@ -1,8 +1,12 @@
 .ql-container {
-    border: 0.5px solid rgba(255, 255, 255, 0.25) !important;
+    /* border: 0.5px solid rgba(255, 255, 255, 0.25) !important; */
+    border: 0 !important;
     /* color: black !important; */
     font-size: 16px;
-    background-color: transparent !important;
+    /* background-color: transparent !important; */
+    background-color: inherit;
+
+    padding: 4px;
 }
 .ql-editor {
     padding: 0 !important;

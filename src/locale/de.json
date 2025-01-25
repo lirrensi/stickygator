@@ -1,0 +1,50 @@
+{
+    "empty": "Keine Daten in der Tabelle verfügbar",
+    "ok": "OK",
+    "cancel": "Abbrechen",
+    "topMenu": {
+        "displayOptionBoard": "Tafel",
+        "displayOptionGrid": "Gitter",
+        "searchPlaceholder": "Suchfilter..."
+    },
+    "note": {
+        "created": "erstellt:",
+        "modified": "geändert:"
+    },
+    "tabs": {
+        "tabsMenuHeader": "Reiter",
+        "renameHeader": "Reiter umbenennen",
+        "renamePlaceholder": "Neuen Namen eingeben...",
+        "deleteAction": "Löschen",
+        "deletePrompt": "Möchten Sie den Reiter {name} wirklich löschen? Alle Notizen werden gelöscht.",
+        "notesCount": "Es enthält {count} Notizen.",
+        "noUndo": "Keine Rücknahme."
+    },
+    "defaultTabName": "Beispiel-Reiter",
+    "uiPromptDeleteNote": "Möchten Sie diese Notiz wirklich löschen?",
+    "settings": {
+        "title": "Einstellungen",
+        "close": "Schließen",
+        "language": "Sprache",
+        "theme": "Benutzeroberfläche",
+        "darkTheme": "Dunkles Thema",
+        "displayTabsAs": "Reiter anzeigen als",
+        "top": "Oben",
+        "sidebar": "Seitenleiste",
+        "fontSize": "Schriftgröße",
+        "importExportData": "Daten importieren/exportieren",
+        "exportToJson": "Zu JSON exportieren",
+        "importFromJsonOverwrite": "Von JSON importieren (aktuelle Daten überschreiben)",
+        "importFromJsonMerge": "Von JSON importieren (mit aktuellen Daten zusammenführen)",
+        "exportToTxt": "In TXT-Datei exportieren (als endgültigen Export verwenden, kann nicht wiederhergestellt werden)",
+        "deleteAllData": "Alle Daten löschen. Kann nicht rückgängig gemacht werden. Sichern Sie die Daten zuerst.",
+        "info": "Info",
+        "changelog": "Änderungsprotokoll",
+        "openTutorial": "Tutorial öffnen",
+        "importSuccess": "Import erfolgreich",
+        "importFail": "Import fehlgeschlagen",
+        "confirmDelete": "ALLES LÖSCHEN?",
+        "typeToConfirm": "Geben Sie '1' ein, um zu bestätigen"
+    },
+    "tutorial": "<p>Doppelklicken Sie auf einen leeren Bereich, um eine Notiz zu erstellen.</p><p>Sie können sie überall hinziehen und die Größe ändern.</p><p>Im Tafelmodus sind Notizen frei schwebend; im Gittermodus werden sie sortiert und fixiert. Im Tafelmodus ordnen Sie sie generell nach Belieben an. Verwenden Sie den Gittermodus, wenn Sie zu viele Notizen haben und etwas leichter finden möchten.</p><p>Vergessen Sie nicht, bei Bedarf einen neuen Reiter zu erstellen. Sie können einen Reiter durch Rechtsklick umbenennen oder löschen und auch umsortieren.</p><p>Klicken Sie auf das Mülleimer-Symbol oder ziehen Sie eine Notiz in den Papierkorb, um sie zu löschen.</p><p>In Notizen können Sie neben der Textformatierung [ ] für Checklisten und - für Aufzählungspunkte verwenden. Die Tabulatortaste funktioniert zum Einrücken von Blöcken.</p><p>Um etwas zu finden, geben Sie in die Suchleiste ein. Notizen werden nach Text gefiltert.</p><p>Änderungen werden lokal im Browser automatisch gespeichert; absolut nichts wird an einen Server gesendet. Die App kann auch vollständig offline genutzt werden.</p>"
+}

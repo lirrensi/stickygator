@@ -36,6 +36,22 @@ textarea {
     display: flex;
     justify-content: space-between;
 }
+
+.note-filter-all {
+    opacity: 0.1 !important;
+}
+.note-filter-this {
+    opacity: 1 !important;
+}
+
+.inner-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    filter: brightness(0.9);
+}
 </style>
 <style></style>
 <template>
@@ -60,14 +76,27 @@ textarea {
         :id="noteId"
         :data-note-id="note.note_id"
         ref="noteRef"
-        :class="['note', { 'is-activated': isActivated }]"
+        :class="[
+            'note',
+            {
+                'is-activated': isActivated,
+                'note-filter-all': isSearchFilter && !isInSearchFilter,
+                'note-filter-this': isSearchFilter && isInSearchFilter,
+            },
+        ]"
         :style="noteStyle(note)"
         @click="noteClick($event)"
     >
+        <div
+            class="inner-background"
+            :style="{
+                backgroundColor: noteStyle(note).backgroundColor,
+            }"
+        ></div>
         <!-- quill editor plugin  -->
         <QuillEditor
             ref="quillRef"
-            class="custom-quill"
+            class="custom-quill slim-scrollbar"
             :style="{ fontSize: globalFontSize + 'px' }"
             contentType="html"
             :options="quillOptions"
@@ -75,6 +104,8 @@ textarea {
             @update:content="onContentChange"
             theme="snow"
             :toolbar="`#toolbar-${noteId}`"
+            @focus="isEditing = true"
+            @blur="isEditing = false"
         />
         <!-- <div
             :id="`quill-${noteId}`"
@@ -206,10 +237,11 @@ textarea {
                 <ion-row>
                     <ion-col class="note-info">
                         <span :title="`created: ${moment(note.created_at || note.modified_at)}`"
-                            >created: {{ moment(note.created_at || note.modified_at).format("YY-MM-DD  hh:mm") }}</span
+                            >{{ $t("note.created") }}
+                            {{ moment(note.created_at || note.modified_at).format("YY-MM-DD  hh:mm") }}</span
                         >
                         <span :title="`modified: ${moment(note.modified_at)}`"
-                            >modified: {{ moment(note.modified_at).format("YY-MM-DD  hh:mm") }}</span
+                            >{{ $t("note.modified") }} {{ moment(note.modified_at).format("YY-MM-DD  hh:mm") }}</span
                         >
                     </ion-col>
                 </ion-row>
@@ -221,7 +253,7 @@ textarea {
     <!-- </vue-resizable> -->
 </template>
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
 import { IonIcon, IonCol, IonGrid, IonRow } from "@ionic/vue";
 
 import { trashOutline } from "ionicons/icons";
@@ -232,6 +264,7 @@ import Quill from "quill";
 import { ColorPicker } from "vue3-colorpicker";
 import { readableColor } from "polished";
 import moment from "moment";
+import { measureTextHeight, noteDeleteHandler } from "../util/ui";
 import { roundToNearestTen } from "../util/math";
 
 import { eventBus, noteStore } from "../store/store";
@@ -255,6 +288,13 @@ const noteId = `note-${note.value.note_id}`;
 const isActivated = computed(() => {
     return store.currentNoteActivated === note.value.note_id;
 });
+const isSearchFilter = computed(() => {
+    return store.searchFilter.length;
+});
+const isInSearchFilter = computed(() => {
+    return store.searchMatch.has(note.value.note_id);
+});
+
 const isEditing = ref(false);
 
 function noteClick(event: any) {
@@ -262,16 +302,36 @@ function noteClick(event: any) {
 }
 
 const grid = computed(() => store.grid);
+function noteContentBasedHeight(note): number {
+    const content = note.content;
+    // calculates best heght based on content
+    // content looks like this => content: "<p>dsdads</p><p>dasdasd</p><p>ddadasd</p><p>dasdasd</p><p>sdadasd</p><p><br></p>"
+    // using <p> and <br> to determine content height
+    // assume 1 line is 20px;
+
+    // Count all <p> tags as individual lines
+    const pTagCount = (content.match(/<p>/g) || []).length;
+
+    // Count all <br> tags within <p> tags as additional lines
+    const brTagCount = (content.match(/<br>/g) || []).length;
+
+    // Calculate total lines
+    const totalLines = pTagCount + brTagCount;
+
+    // Assume each line is 20px in height
+    const lineHeight = 20;
+    return totalLines * lineHeight;
+}
 function noteStyle(note: any) {
     const noteOrder = note.order ?? 0;
     console.log("noteOrder", noteOrder);
     const styles: any = {
-        width: note.width + "px",
-        height: note.height + "px",
+        width: `${note.width}px`,
+        height: `${note.height}px`,
         backgroundColor: note.color,
-        // zIndex: Math.ceil(note.modified_at / 10000000), // position based on last change;
+        // filter: `brightness(0.8)`, // Adjust brightness to darken (0.8 makes it slightly darker)
         zIndex: isActivated.value ? noteOrder + 1000 : noteOrder + 10,
-        color: noteReadableColor.value + " !important",
+        color: `${noteReadableColor.value} !important`,
     };
 
     if (store.display === "board") {
@@ -280,7 +340,7 @@ function noteStyle(note: any) {
         styles.top = note.y + "px";
     }
     if (store.display === "grid") {
-        styles.marginBottom = "20px";
+        styles.marginBottom = "10px";
 
         // experimental
         // styles.width = Math.ceil(window.innerWidth / 4) + "px";
@@ -295,16 +355,36 @@ function noteStyle(note: any) {
         //     styles.width = basisWidth + "px";
         // }
         styles.width = basisWidth + "px";
+        // minumal height posible but so note still visible
         styles.minHeight = "200px";
-        styles.maxHeight = 2 * basisWidth + "px";
+        styles.height = measureTextHeight(note.content, basisWidth) + "px";
+        // max height is 3x max regular note, so it does not overflow for the entire screen
+        const screenHeight = window.innerHeight;
+        let maxHeight = roundToNearestTen(2 * basisWidth);
+        if (maxHeight > screenHeight) {
+            maxHeight = roundToNearestTen(screenHeight - 140);
+        }
+        styles.maxHeight = maxHeight + "px";
     }
 
     checkToolBarVisibility();
     return styles;
 }
+
+function handleDeleteRequest(event: any) {
+    if (event.key === "Delete" || event.key === "Backspace") {
+        if (isActivated.value === true && isEditing.value === false) {
+            noteDeleteHandler(note.value);
+        }
+    }
+}
+
 // note when clicked once = activated
 // clicked again => started editing
 // so double click would be starting editing it;
+onBeforeUnmount(() => {
+    // document.removeEventListener("keydown", handleDeleteRequest);
+});
 onMounted(() => {
     eventBus.on("ev/canvas/clickEmptySpace", event => {
         console.log("canvas/clickEmptySpace => ", note);
@@ -318,6 +398,49 @@ onMounted(() => {
         }
     });
 
+    // document.addEventListener("keydown", handleDeleteRequest);
+
+    function enableNoteResizable(elem) {
+        elem.resizable({
+            minHeight: 200,
+            minWidth: 200,
+            grid: [10, 10],
+            stop(event, ui) {
+                console.log("resizing", ui);
+                onResize(ui.size.width, ui.size.height);
+            },
+        });
+    }
+    function enableNoteDraggable(elem, canvas, isInGridMode = false) {
+        elem.draggable({
+            grid: [10, 10],
+            cursor: "crosshair",
+            scroll: true,
+            cancel: `#${noteId} .ql-container`,
+
+            helper: isInGridMode ? "clone" : "",
+
+            // using on stop to run modification only after drag stops, as we also need to detect move to tab;
+            start: function (event, ui) {
+                //canvas-modifier-drag
+                canvas.addClass("canvas-modifier-drag");
+
+                noteClick(event);
+
+                $(".note").addClass("dragging");
+            },
+            stop: function (element, ui) {
+                canvas.removeClass("canvas-modifier-drag");
+
+                if (!isInGridMode) {
+                    onDrag(ui.position.left, ui.position.top);
+                }
+
+                $(".note").removeClass("dragging");
+            },
+        });
+    }
+
     // only do resizer options when in board mode
     $(function () {
         const elem: any = $(`#${noteId}`);
@@ -325,46 +448,9 @@ onMounted(() => {
         // allow resize even in grid mode
         if (store.display === "board") {
             // else set movable options
-
-            elem.draggable({
-                grid: [10, 10],
-                // containment: "parent",
-                // containment: ".global-content-container",
-                cursor: "crosshair",
-                scroll: true,
-                // snap: true,
-                // handle: `toolbar-${noteId}`,
-                cancel: `#${noteId} .ql-container`,
-
-                // using on stop to run modification only after drag stops, as we also need to detect move to tab;
-                start: function (event, ui) {
-                    //canvas-modifier-drag
-                    canvas.addClass("canvas-modifier-drag");
-                    console.log("start", event, ui);
-
-                    noteClick(event);
-                    $(".note").addClass("dragging");
-                },
-                stop: function (element, ui) {
-                    console.log("stop", arguments);
-                    // console.log("dragging note", arguments);
-                    // console.log("dragObject", dragObject.position.top, dragObject.position.left);
-                    canvas.removeClass("canvas-modifier-drag");
-                    onDrag(ui.position.left, ui.position.top);
-
-                    $(".note").removeClass("dragging");
-                },
-            });
-            elem.resizable({
-                minHeight: 200,
-                minWidth: 200,
-                grid: [10, 10],
-                stop(event, ui) {
-                    console.log("resizing", ui);
-                    onResize(ui.size.width, ui.size.height);
-                },
-            });
+            enableNoteResizable(elem);
         }
+        enableNoteDraggable(elem, canvas, store.display === "grid");
 
         // focus on conteneditabel element on double click
         elem.on("dblclick", function () {
@@ -465,9 +551,7 @@ function onColorChange(color: string) {
 }
 function onDeleteNote(event) {
     const noteEmpty = note.value.content.length === 0;
-    if (!noteEmpty && confirm("Are you sure you want to delete this note?")) {
-        store.deleteNote(note.value);
-    }
+    noteDeleteHandler(note.value);
 }
 
 const globalFontSize = computed(() => {

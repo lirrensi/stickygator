@@ -4,7 +4,7 @@
     min-height: 100%; */
     width: 100%;
     /* height: 100%; */
-    height: calc(100% - 40px);
+    height: calc(100% - 10px);
     /* height: 2000px; */
     position: relative;
 
@@ -125,16 +125,17 @@ function doubleClickEmptySpace(event: any) {
     // detect that we clicked on canvas and not on any of the notes
     if (event.target === canvasRef.value) {
         // Clicked on empty space
-        console.log("Clicked on empty space", event);
+        // console.log("Clicked on empty space", event);
         console.log("Click coordinates:", { x: event.clientX, y: event.clientY });
-        var rect = event.target.getBoundingClientRect();
+        const rect = event.target.getBoundingClientRect();
+        const scrollX = event.target.scrollLeft;
+        const scrollY = event.target.scrollTop;
 
-        // Calculate the coordinates relative to the area
-        const x = roundToNearestTen(event.clientX - rect.left);
-        const y = roundToNearestTen(event.clientY - rect.top);
+        // Adjust coordinates with scroll offsets and round to nearest ten
+        const x = roundToNearestTen(event.clientX - rect.left + scrollX);
+        const y = roundToNearestTen(event.clientY - rect.top + scrollY);
 
-        // Log the coordinates relative to the area
-        console.log("X: " + x + ", Y: " + y);
+        console.log("Adjusted X: " + x + ", Adjusted Y: " + y);
 
         store.createNote({ x, y });
         initMasonry();
@@ -155,7 +156,7 @@ function initMasonry() {
             // columnWidth: lowestWidth || 200,
             // columnWidth: 100,
             // columnWidth: window.innerWidth / 3,
-            gutter: 20,
+            gutter: 10,
             // fitWidth: true,
         });
         console.log("initMasonry", masonryInstance);
@@ -172,6 +173,9 @@ onMounted(() => {
     store.events.on("store/createNote", () => {
         applyIntegrations();
     });
+    store.events.on("ev/canvas/requestRedraw", () => {
+        applyIntegrations();
+    });
 });
 onBeforeUnmount(() => {
     store.events.off("store/createNote");
@@ -182,16 +186,10 @@ store.$subscribe((mutation, store) => {
 });
 const currentViewMode = computed(() => store.display);
 const currentTab = computed(() => store.currentTabIndex);
-watch([currentViewMode, currentTab], () => {
-    // console.log("currentTab CHANGED", currentTab.value);
+// this is required as set canot be referenced in pinia
+const searchMatchesKey = computed(() => Array.from(store.searchMatch).sort().join(","));
+
+watch([currentViewMode, currentTab, searchMatchesKey], () => {
     applyIntegrations();
 });
-// watch(
-//     store.currentNotesList,
-//     state => {
-//         console.log("currentNotesList CHANGEd", state);
-//         applyIntegrations();
-//     },
-//     { deep: true },
-// );
 </script>

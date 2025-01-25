@@ -1,9 +1,9 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'sssticky',
-  webDir: 'dist'
+    appId: "io.ionic.stickygator",
+    appName: "Stickygator",
+    webDir: "dist",
 };
 
 export default config;

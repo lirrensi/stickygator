@@ -1,0 +1,50 @@
+{
+    "empty": "Tidak ada data tersedia di tabel",
+    "ok": "OK",
+    "cancel": "Batal",
+    "topMenu": {
+        "displayOptionBoard": "Papan",
+        "displayOptionGrid": "Grid",
+        "searchPlaceholder": "Cari filter..."
+    },
+    "note": {
+        "created": "dibuat:",
+        "modified": "diubah:"
+    },
+    "tabs": {
+        "tabsMenuHeader": "Tab",
+        "renameHeader": "Ganti Nama Tab",
+        "renamePlaceholder": "Masukkan nama baru...",
+        "deleteAction": "Hapus",
+        "deletePrompt": "Apakah Anda yakin ingin menghapus tab {name}? Semua catatan akan dihapus.",
+        "notesCount": "Memiliki {count} catatan.",
+        "noUndo": "Tidak dapat diurungkan."
+    },
+    "defaultTabName": "contoh tab",
+    "uiPromptDeleteNote": "Apakah Anda yakin ingin menghapus catatan ini?",
+    "settings": {
+        "title": "Pengaturan",
+        "close": "Tutup",
+        "language": "Bahasa",
+        "theme": "UI",
+        "darkTheme": "Tema Gelap",
+        "displayTabsAs": "Tampilkan Tab sebagai",
+        "top": "Atas",
+        "sidebar": "Bilah Sisi",
+        "fontSize": "Ukuran Font",
+        "importExportData": "Impor/Ekspor data",
+        "exportToJson": "Ekspor ke JSON",
+        "importFromJsonOverwrite": "Impor dari JSON (menimpa data saat ini)",
+        "importFromJsonMerge": "Impor dari JSON (gabungkan dengan data saat ini)",
+        "exportToTxt": "Ekspor ke file TXT (gunakan sebagai ekspor final, tidak dapat dipulihkan)",
+        "deleteAllData": "Hapus semua data. Tidak dapat diurungkan. Buat cadangan terlebih dahulu.",
+        "info": "Info",
+        "changelog": "Catatan Perubahan",
+        "openTutorial": "Buka tutorial",
+        "importSuccess": "Impor berhasil",
+        "importFail": "Impor gagal",
+        "confirmDelete": "HAPUS SEMUA?",
+        "typeToConfirm": "Ketik '1' untuk mengonfirmasi"
+    },
+    "tutorial": "<p>Klik dua kali di area kosong untuk membuat catatan.</p><p>Anda dapat memindahkannya ke mana saja dan mengubah ukurannya.</p><p>Dalam mode papan, catatan mengambang bebas; dalam mode grid, mereka disusun dan tetap. Dalam mode papan, Anda umumnya mengatur dan menyesuaikannya sesuai keinginan. Gunakan mode grid jika Anda memiliki terlalu banyak catatan dan ingin mencari sesuatu lebih mudah.</p><p>Jangan lupa membuat tab baru jika diperlukan. Anda dapat mengganti nama atau menghapus tab dengan mengklik kanan, dan juga mengurutkannya.</p><p>Klik ikon tempat sampah atau pindahkan catatan ke tempat sampah untuk menghapus.</p><p>Di dalam catatan, selain format teks, Anda dapat menggunakan [ ] untuk membuat daftar centang, dan - untuk poin peluru. Tombol tab berfungsi untuk mengindentasi blok.</p><p>Untuk menemukan sesuatu, ketik di pencarian. Catatan akan disaring berdasarkan teks.</p><p>Perubahan disimpan otomatis secara lokal di browser; tidak ada yang dikirim ke server mana pun. Aplikasi ini juga dapat digunakan sepenuhnya secara offline.</p>"
+}

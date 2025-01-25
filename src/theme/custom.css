@@ -11,13 +11,21 @@
     display: none; /* Chrome, Safari and Opera */
 }
 
-.slim-scrollbar {
-    scrollbar-width: 4px;
-    scrollbar-width: thin;
+.slim-scrollbar,
+.slim-scrollbar > * {
+    /* General scrollbar styles (e.g., for WebKit browsers) */
+    scrollbar-width: auto; /* Default for other browsers */
 }
+/* Apply thin scrollbar only for Firefox */
+@-moz-document url-prefix() {
+    .slim-scrollbar {
+        scrollbar-width: thin;
+    }
+}
+
 .slim-scrollbar::-webkit-scrollbar {
-    width: 4px; /* Width of the scrollbar */
-    height: 4px; /* Height of the scrollbar for horizontal scrolling */
+    width: 1px; /* Width of the scrollbar */
+    height: 1px; /* Height of the scrollbar for horizontal scrolling */
 }
 
 .slim-scrollbar::-webkit-scrollbar-thumb {
@@ -103,4 +111,11 @@ body {
 }
 .ion-palette-dark .canvas-background {
     background-color: #212121;
+}
+
+.not-visible {
+    visibility: hidden !important;
+}
+.visible {
+    visibility: visible !important;
 }

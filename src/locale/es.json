@@ -1,0 +1,50 @@
+{
+    "empty": "No hay datos disponibles en la tabla",
+    "ok": "Aceptar",
+    "cancel": "Cancelar",
+    "topMenu": {
+        "displayOptionBoard": "Tablero",
+        "displayOptionGrid": "Cuadrícula",
+        "searchPlaceholder": "Filtro de búsqueda..."
+    },
+    "note": {
+        "created": "creado:",
+        "modified": "modificado:"
+    },
+    "tabs": {
+        "tabsMenuHeader": "Pestañas",
+        "renameHeader": "Renombrar pestaña",
+        "renamePlaceholder": "Ingrese un nuevo nombre...",
+        "deleteAction": "Eliminar",
+        "deletePrompt": "¿Estás seguro de que deseas eliminar la pestaña {name}? Todas las notas se eliminarán.",
+        "notesCount": "Tiene {count} notas.",
+        "noUndo": "Sin deshacer."
+    },
+    "defaultTabName": "pestaña de ejemplo",
+    "uiPromptDeleteNote": "¿Estás seguro de que deseas eliminar esta nota?",
+    "settings": {
+        "title": "Configuraciones",
+        "close": "Cerrar",
+        "language": "Idioma",
+        "theme": "Interfaz",
+        "darkTheme": "Tema oscuro",
+        "displayTabsAs": "Mostrar pestañas como",
+        "top": "Arriba",
+        "sidebar": "Barra lateral",
+        "fontSize": "Tamaño de fuente",
+        "importExportData": "Importar/Exportar datos",
+        "exportToJson": "Exportar a JSON",
+        "importFromJsonOverwrite": "Importar desde JSON (sobrescribir datos actuales)",
+        "importFromJsonMerge": "Importar desde JSON (fusionar con datos actuales)",
+        "exportToTxt": "Exportar a archivo TXT (uso como exportación final, no se puede restaurar)",
+        "deleteAllData": "Eliminar todos los datos. No se puede deshacer. Haz una copia de seguridad primero.",
+        "info": "Información",
+        "changelog": "Historial de cambios",
+        "openTutorial": "Abrir tutorial",
+        "importSuccess": "Importación exitosa",
+        "importFail": "Error en la importación",
+        "confirmDelete": "¿ELIMINAR TODO?",
+        "typeToConfirm": "Escribe '1' para confirmar"
+    },
+    "tutorial": "<p>Haz doble clic en un área vacía para crear una nota.</p><p>Puedes arrastrarla a cualquier lugar y cambiar su tamaño.</p><p>En el modo tablero, las notas son flotantes; en el modo cuadrícula, están ordenadas y fijas. En el modo tablero, generalmente las organizas como desees. Usa el modo cuadrícula si tienes muchas notas y quieres encontrarlas más fácilmente.</p><p>No olvides crear una nueva pestaña si es necesario. Puedes renombrar o eliminar una pestaña haciendo clic derecho y también reordenarlas.</p><p>Haz clic en el icono de basura o mueve una nota a la papelera para eliminarla.</p><p>En las notas, además del formato de texto, puedes usar [ ] para listas de verificación y - para puntos de viñeta. La tecla de tabulación sirve para indentar bloques.</p><p>Para encontrar algo, escribe en el buscador. Las notas se filtrarán por texto.</p><p>Los cambios se guardan automáticamente en el navegador; no se envía absolutamente nada a ningún servidor. La aplicación también se puede usar completamente sin conexión.</p>"
+}

@@ -1,0 +1,50 @@
+{
+    "empty": "Nenhum dado disponível na tabela",
+    "ok": "OK",
+    "cancel": "Cancelar",
+    "topMenu": {
+        "displayOptionBoard": "Quadro",
+        "displayOptionGrid": "Grade",
+        "searchPlaceholder": "Filtro de busca..."
+    },
+    "note": {
+        "created": "criado:",
+        "modified": "modificado:"
+    },
+    "tabs": {
+        "tabsMenuHeader": "Abas",
+        "renameHeader": "Renomear Aba",
+        "renamePlaceholder": "Digite o novo nome...",
+        "deleteAction": "Excluir",
+        "deletePrompt": "Tem certeza de que deseja excluir a aba {name}? Todas as notas serão excluídas.",
+        "notesCount": "Contém {count} notas.",
+        "noUndo": "Sem desfazer."
+    },
+    "defaultTabName": "aba de exemplo",
+    "uiPromptDeleteNote": "Tem certeza de que deseja excluir esta nota?",
+    "settings": {
+        "title": "Configurações",
+        "close": "Fechar",
+        "language": "Idioma",
+        "theme": "Tema",
+        "darkTheme": "Tema Escuro",
+        "displayTabsAs": "Exibir Abas como",
+        "top": "Topo",
+        "sidebar": "Barra Lateral",
+        "fontSize": "Tamanho da fonte",
+        "importExportData": "Importar/Exportar dados",
+        "exportToJson": "Exportar para JSON",
+        "importFromJsonOverwrite": "Importar de JSON (sobrescrever dados atuais)",
+        "importFromJsonMerge": "Importar de JSON (mesclar com dados atuais)",
+        "exportToTxt": "Exportar para arquivo TXT (usar como exportação final, não pode ser restaurado)",
+        "deleteAllData": "Excluir todos os dados. Não pode ser desfeito. Faça um backup antes.",
+        "info": "Informações",
+        "changelog": "Registro de Alterações",
+        "openTutorial": "Abrir tutorial",
+        "importSuccess": "Importação bem-sucedida",
+        "importFail": "Falha na importação",
+        "confirmDelete": "EXCLUIR TUDO?",
+        "typeToConfirm": "Digite '1' para confirmar"
+    },
+    "tutorial": "<p>Clique duas vezes em uma área vazia para criar uma nota.</p><p>Você pode arrastá-la para qualquer lugar e redimensionar.</p><p>No modo quadro, as notas são flutuantes; no modo grade, elas são classificadas e fixas. No modo quadro, você geralmente as organiza como preferir. Use o modo grade se tiver muitas notas e quiser encontrar algo mais facilmente.</p><p>Não se esqueça de criar uma nova aba, se necessário. Você pode renomear ou excluir uma aba clicando com o botão direito e também reordená-las.</p><p>Clique no ícone de lixeira ou mova uma nota para a lixeira para excluir.</p><p>Nas notas, além da formatação de texto, você pode usar [ ] para criar listas de verificação e - para marcadores. A tecla Tab funciona para indentar blocos.</p><p>Para encontrar algo, digite na busca. As notas serão filtradas pelo texto.</p><p>As alterações são salvas automaticamente no navegador; nada é enviado para nenhum servidor. O aplicativo também pode ser usado totalmente offline.</p>"
+}

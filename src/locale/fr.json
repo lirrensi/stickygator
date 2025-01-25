@@ -1,0 +1,50 @@
+{
+    "empty": "Aucune donnée disponible dans le tableau",
+    "ok": "OK",
+    "cancel": "Annuler",
+    "topMenu": {
+        "displayOptionBoard": "Tableau",
+        "displayOptionGrid": "Grille",
+        "searchPlaceholder": "Filtrer la recherche..."
+    },
+    "note": {
+        "created": "créé:",
+        "modified": "modifié:"
+    },
+    "tabs": {
+        "tabsMenuHeader": "Onglets",
+        "renameHeader": "Renommer l'onglet",
+        "renamePlaceholder": "Entrer un nouveau nom...",
+        "deleteAction": "Supprimer",
+        "deletePrompt": "Êtes-vous sûr de vouloir supprimer l'onglet {name}? Toutes les notes seront supprimées.",
+        "notesCount": "Il contient {count} notes.",
+        "noUndo": "Pas d'annulation."
+    },
+    "defaultTabName": "exemple d'onglet",
+    "uiPromptDeleteNote": "Êtes-vous sûr de vouloir supprimer cette note?",
+    "settings": {
+        "title": "Paramètres",
+        "close": "Fermer",
+        "language": "Langue",
+        "theme": "Interface",
+        "darkTheme": "Thème Sombre",
+        "displayTabsAs": "Afficher les onglets en tant que",
+        "top": "Haut",
+        "sidebar": "Barre latérale",
+        "fontSize": "Taille de police",
+        "importExportData": "Importer/Exporter des données",
+        "exportToJson": "Exporter en JSON",
+        "importFromJsonOverwrite": "Importer depuis JSON (écrase les données actuelles)",
+        "importFromJsonMerge": "Importer depuis JSON (fusionne avec les données actuelles)",
+        "exportToTxt": "Exporter en fichier TXT (export final, non restaurable)",
+        "deleteAllData": "Supprimer toutes les données. Ne peut pas être annulé. Faites une sauvegarde d'abord.",
+        "info": "Info",
+        "changelog": "Historique des modifications",
+        "openTutorial": "Ouvrir le tutoriel",
+        "importSuccess": "Importation réussie",
+        "importFail": "Échec de l'importation",
+        "confirmDelete": "SUPPRIMER TOUT?",
+        "typeToConfirm": "Tapez '1' pour confirmer"
+    },
+    "tutorial": "<p>Double-cliquez sur une zone vide pour créer une note.</p><p>Vous pouvez la déplacer et la redimensionner.</p><p>En mode tableau, les notes flottent librement ; en mode grille, elles sont triées et fixes. Utilisez le mode tableau pour organiser comme vous voulez, et le mode grille si vous avez beaucoup de notes à trouver facilement.</p><p>N'oubliez pas de créer un nouvel onglet si besoin. Vous pouvez renommer ou supprimer un onglet avec un clic droit, et les réorganiser.</p><p>Cliquez sur l'icône de la corbeille ou déplacez une note pour supprimer.</p><p>Dans les notes, en plus du formatage de texte, utilisez [ ] pour créer des listes de tâches, et - pour des puces. La touche Tab fonctionne pour indenter.</p><p>Pour rechercher, tapez dans la barre de recherche. Les notes seront filtrées.</p><p>Les modifications sont enregistrées localement dans le navigateur ; rien n'est envoyé à un serveur. L'application fonctionne entièrement hors ligne.</p>"
+}

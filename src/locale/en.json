@@ -1,0 +1,50 @@
+{
+    "empty": "No data available in table",
+    "ok": "OK",
+    "cancel": "Cancel",
+    "topMenu": {
+        "displayOptionBoard": "Board",
+        "displayOptionGrid": "Grid",
+        "searchPlaceholder": "Search filter..."
+    },
+    "note": {
+        "created": "created:",
+        "modified": "modified:"
+    },
+    "tabs": {
+        "tabsMenuHeader": "Tabs",
+        "renameHeader": "Rename Tab",
+        "renamePlaceholder": "Enter new name...",
+        "deleteAction": "Delete",
+        "deletePrompt": "Are you sure you want to delete {name} tab? All notes will be deleted.",
+        "notesCount": "It has {count} notes.",
+        "noUndo": "No undo."
+    },
+    "defaultTabName": "example tab",
+    "uiPromptDeleteNote": "Are you sure you want to delete this note?",
+    "settings": {
+        "title": "Settings",
+        "close": "Close",
+        "language": "Language",
+        "theme": "UI",
+        "darkTheme": "Dark Theme",
+        "displayTabsAs": "Display Tabs as",
+        "top": "Top",
+        "sidebar": "Sidebar",
+        "fontSize": "Font size",
+        "importExportData": "Import/Export data",
+        "exportToJson": "Export to JSON",
+        "importFromJsonOverwrite": "Import from JSON (overwrite current data)",
+        "importFromJsonMerge": "Import from JSON (merge with current data)",
+        "exportToTxt": "Export to TXT file (use as final export, cannot restore from it)",
+        "deleteAllData": "Delete all data. Cannot be undone. Make a backup first.",
+        "info": "Info",
+        "changelog": "Changelog",
+        "openTutorial": "Open tutorial",
+        "importSuccess": "Import successful",
+        "importFail": "Import failed",
+        "confirmDelete": "DELETE EVERYTHING?",
+        "typeToConfirm": "Type '1' to confirm"
+    },
+    "tutorial": "<p>Double-click on an empty area to create a note.</p><p>You can drag it anywhere and resize.</p><p>In board mode, notes are free-floating; in grid mode, they are sorted and fixed. In board mode, you generally order and set them as you like. Use grid mode if you have too many notes and want to find anything more easily.</p><p>Do not forget to create a new tab if needed. You can rename or delete a tab by right-clicking, and also reorder them.</p><p>Click on the trash icon or move a note to trash to delete.</p><p>In notes, in addition to text formatting, you can use [ ] to create checklists, and - for bullet points. The tab key works to indent blocks.</p><p>To find anything, type in the search. Notes will be filtered by text.</p><p>Changes are auto-saved locally in the browser; absolutely nothing is sent to any server. The app can also be used fully offline.</p>"
+}

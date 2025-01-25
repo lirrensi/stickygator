@@ -68,7 +68,56 @@ V1.4 released;
 [x] on note drag, small opacity, so also can see notes under...
 [x] new note color random, based on some preselection
 
+V1.5 released   
+[x] grid view make adaptive length based on content amount
+[x] when creating a note it creates on top, even if scrolled down - ways ahead where cursor is
+[x] side bar, and top bar slimmer but make two separate, return to before]
 
+V1.6 released;
+[x] full text search, adaptations for grid mode, fzzy method
+    [x] fuzzy is too sensitive, must take phrase as is exactly, fix
+    [x] tabs are also now filtered? but filter or to reorder???
+    [x] when in search - need to uplift notes that may be burried from below
+    [x] in search - amount of notes also change in tabs
+    [x] in dark mode selection is whacky for tabs
+[x] fix no default settings causing error on display
+[x] note also can be drag/drop in grid mode;
+[x] fix pesky oversized toolbars in webkit and mozilla
+[x] better note inner border styles
+
+======================================================================================================================
+V1.7 candidate
+
+[x] added localization;
+
+
+[???? x] added delete key handler
+want to change how filters are applied => unified tabs storage vs presentation mode
+so Data => getter/Computable => display as is, searh and sort filters are inside those;
+
+
+    so tabs also filtered not by display but also wih search function
+    and notes also like that
+    for grid mode - sort option? ASC/DESC => CONTENT_LENGTH + TIMESTAMPE 
+
+========================================================================================================================
+Translation ofc;
+
+file implementation...
+So like this => in tetxt inside {file:uuid} OR just keep them separate alltgether away from text?
+On paste => parse clipboard and extract files into the 
+
+
+[ ] weekly backup reminder
+// TODO: set timeout => if not not edited in time => delete
+
+
+app sickiy to translate electron and on githt
+
+implement note dragging saving prev position - save initial position before drag as => not as actuall as I think as the goal is to move to and then switch to grab form other side;
+Also in grid mode not possible to drag at all!
+
+add image paste encoded in base64 simple with 5mb limit? or what.... or any file preferably? dunno
 
 
 [-] change to interact js for better support...?

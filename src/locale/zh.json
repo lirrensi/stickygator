@@ -1,0 +1,50 @@
+{
+    "empty": "表格中没有数据",
+    "ok": "确定",
+    "cancel": "取消",
+    "topMenu": {
+        "displayOptionBoard": "板式",
+        "displayOptionGrid": "网格",
+        "searchPlaceholder": "搜索筛选..."
+    },
+    "note": {
+        "created": "创建时间：",
+        "modified": "修改时间："
+    },
+    "tabs": {
+        "tabsMenuHeader": "标签页",
+        "renameHeader": "重命名标签页",
+        "renamePlaceholder": "输入新名称...",
+        "deleteAction": "删除",
+        "deletePrompt": "确定要删除标签页 {name} 吗？所有笔记都将被删除。",
+        "notesCount": "共有 {count} 条笔记。",
+        "noUndo": "无法撤销。"
+    },
+    "defaultTabName": "示例标签页",
+    "uiPromptDeleteNote": "确定要删除这条笔记吗？",
+    "settings": {
+        "title": "设置",
+        "close": "关闭",
+        "language": "语言",
+        "theme": "界面主题",
+        "darkTheme": "深色主题",
+        "displayTabsAs": "标签页显示方式",
+        "top": "顶部",
+        "sidebar": "侧边栏",
+        "fontSize": "字体大小",
+        "importExportData": "导入/导出数据",
+        "exportToJson": "导出为 JSON",
+        "importFromJsonOverwrite": "从 JSON 导入 (覆盖当前数据)",
+        "importFromJsonMerge": "从 JSON 导入 (与当前数据合并)",
+        "exportToTxt": "导出为 TXT 文件 (仅供最终导出，无法恢复)",
+        "deleteAllData": "删除所有数据。无法撤销。请先备份。",
+        "info": "信息",
+        "changelog": "更新日志",
+        "openTutorial": "打开教程",
+        "importSuccess": "导入成功",
+        "importFail": "导入失败",
+        "confirmDelete": "删除所有内容？",
+        "typeToConfirm": "输入 '1' 以确认"
+    },
+    "tutorial": "<p>双击空白区域创建笔记。</p><p>可以拖动并调整大小。</p><p>在板式模式下，笔记是自由浮动的；在网格模式下，它们被排序和固定。通常您可以在板式模式中自由安排笔记，网格模式适合管理较多笔记，方便查找。</p><p>不要忘了新建标签页。可以通过右键单击重命名或删除标签页，还可以重新排序。</p><p>点击垃圾桶图标或将笔记移动到垃圾箱来删除笔记。</p><p>笔记中支持文本格式，您可以使用 [ ] 创建待办事项，使用 - 创建项目符号。Tab 键可以缩进段落。</p><p>输入关键词可以搜索并过滤笔记内容。</p><p>所有更改会自动保存到本地浏览器；不会发送任何数据到服务器。该应用可以完全离线使用。</p>"
+}
