@@ -284,6 +284,8 @@ console.log("note", note, props.note);
 
 const noteRef = ref(null);
 const noteId = `note-${note.value.note_id}`;
+
+const isVisible = ref(false);
 // const isActivated = ref(false);
 const isActivated = computed(() => {
     return store.currentNoteActivated === note.value.note_id;

@@ -90,6 +90,19 @@ V1.7 candidate
 
 [x] added localization;
 
+[ ] last update still not making note appear on top;
+[ ] make a setting for free flow
+    [ ] auto organize button or smth...
+    [ ] make like left clikc when pressed allows like to scroll around or so...
+
+
+
+
+
+
+
+
+
 
 [???? x] added delete key handler
 want to change how filters are applied => unified tabs storage vs presentation mode
@@ -146,3 +159,29 @@ If note native (in free mode) if less => then its 300px, if more, then take 2x30
 But can extend for 3 cols probably...
 
 Height is always min note height and max at 2x basis;
+
+
+
+====================
+UPDATE MID 2025 (05/2025)
+
+[ ] fix 2nd window appears why
+[ ]
+
+not working on drag - date Z not updatings
+    Make Z index on date update...
+
+notes app full screen button make! to easy manage like all, desktop only
+app sucky tasks
+
+maeke electron to remember last size/position of window;
+make electron option to have storage option?on path?
+Look at gnotes and see what can you add additionally allso.
+Multiselect?
+Archive option - no, netter use a tab => CLOSED 
+Trash - same I  guess or use a special trash tab? => CLOSED ISSUE
+Adding attachments? => NO HELL TOO COMPLICATED...
+Note export to file save /share => OK WORKS ALREADY
+Note view - leaks, load is slow at 90 notes; - maybe do some async render to allow cycles between ui is awhile + maybe even animation fade in => YES THIS IS AN ISSUE
+Extended view as in gnotes? to edit one fully ... but its kinda agains the principle of
+Prevent creation of additional windows;
