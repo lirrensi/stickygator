@@ -70,3 +70,6 @@ out/
 # Temporary files
 temp/
 tmp/
+
+appdata/
+userdata/
