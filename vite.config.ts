@@ -60,7 +60,7 @@ function createPlugins(mode) {
 // Export the final configuration
 export default ({ mode }) =>
     defineConfig({
-        base: mode === "browser" ? "/sssticky/" : "./",
+        base: mode === "browser" ? "/stickygator/" : "./",
         plugins: createPlugins(mode),
         resolve: {
             alias: {
