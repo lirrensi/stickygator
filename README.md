@@ -5,7 +5,7 @@ Inspired by [zonote](https://github.com/zonetti/zonote) and extended for power u
 
 ---
 
-![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/master/img_showcase/1.png)
+![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/main/img_showcase/1.png)
 
 ## ✨ Features
 
@@ -50,8 +50,8 @@ Inspired by [zonote](https://github.com/zonetti/zonote) and extended for power u
 
 ---
 
-![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/master/img_showcase/2.png)
-![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/master/img_showcase/3.png)
+![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/main/img_showcase/2.png)
+![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/main/img_showcase/3.png)
 
 ## 🚀 Getting Started
 
