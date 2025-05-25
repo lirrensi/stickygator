@@ -6,6 +6,8 @@
     padding: 10px;
     position: relative;
     opacity: 0.96;
+
+    /* content-visibility: auto; */
 }
 .note.dragging {
     opacity: 0.5;
@@ -93,167 +95,162 @@ textarea {
                 backgroundColor: noteStyle(note).backgroundColor,
             }"
         ></div>
-        <!-- quill editor plugin  -->
-        <QuillEditor
-            ref="quillRef"
-            class="custom-quill slim-scrollbar"
-            :style="{ fontSize: globalFontSize + 'px' }"
-            contentType="html"
-            :options="quillOptions"
-            :content="note.content"
-            @update:content="onContentChange"
-            theme="snow"
-            :toolbar="`#toolbar-${noteId}`"
-            @focus="isEditing = true"
-            @blur="isEditing = false"
-        />
-        <!-- <div
-            :id="`quill-${noteId}`"
-            class="custom-quill"
-        ></div> -->
 
-        <!-- <textarea v-model="note.content"></textarea> -->
-        <div
-            class="toolbar-anchor"
-            :id="`toolbar-anchor-${noteId}`"
-        >
-            <!-- :class="['toolbar', { 'toolbar-obstructed': toolbarObstructed }]" -->
-            <!-- <div
-                v-show="isActivated"
-                class="toolbar"
-                :id="`toolbar-${noteId}`"
+        <template v-if="isVisible">
+            <QuillEditor
+                ref="quillRef"
+                class="custom-quill slim-scrollbar"
+                :style="{ fontSize: globalFontSize + 'px' }"
+                contentType="html"
+                :options="quillOptions"
+                :content="note.content"
+                @update:content="onContentChange"
+                theme="snow"
+                :toolbar="`#toolbar-${noteId}`"
+                @focus="isEditing = true"
+                @blur="isEditing = false"
+            />
+
+            <div
+                class="toolbar-anchor"
+                :id="`toolbar-anchor-${noteId}`"
             >
-                
-            </div> -->
-            <ion-grid
-                v-show="isActivated"
-                class="toolbar"
-                :id="`toolbar-${noteId}`"
-            >
-                <ion-row>
-                    <ion-col size="8">
-                        <button class="ql-bold"></button>
-                        <button class="ql-italic"></button>
-                        <button class="ql-underline"></button>
-                        <button class="ql-strike"></button>
-                        <button class="ql-blockquote"></button>
-                        <!-- <button class="ql-code-block"></button> -->
-                        <!-- <select class="ql-header">
-                    <option value="1"></option>
-                    <option value="2"></option>
-                    <option selected></option>
-                </select> -->
-                        <!-- <button
-                    class="ql-list"
-                    value="ordered"
-                ></button> -->
-                        <!-- <button
-                    class="ql-list"
-                    value="bullet"
-                ></button> -->
-                        <!-- <button
-                    class="ql-script"
-                    value="sub"
-                ></button> -->
-                        <!-- <button
-                    class="ql-script"
-                    value="super"
-                ></button> -->
-                        <!-- <button
-                    class="ql-indent"
-                    value="-1"
-                ></button> -->
-                        <!-- <button
-                    class="ql-indent"
-                    value="+1"
-                ></button> -->
-                        <!-- <select class="ql-size">
-                    <option value="small"></option>
-                    <option selected></option>
-                    <option value="large"></option>
-                    <option value="huge"></option>
-                </select> -->
+                <!-- :class="['toolbar', { 'toolbar-obstructed': toolbarObstructed }]" -->
+                <!-- <div
+                    v-show="isActivated"
+                    class="toolbar"
+                    :id="`toolbar-${noteId}`"
+                >
+                    
+                </div> -->
+                <ion-grid
+                    v-show="isActivated"
+                    class="toolbar"
+                    :id="`toolbar-${noteId}`"
+                >
+                    <ion-row>
+                        <ion-col size="8">
+                            <button class="ql-bold"></button>
+                            <button class="ql-italic"></button>
+                            <button class="ql-underline"></button>
+                            <button class="ql-strike"></button>
+                            <button class="ql-blockquote"></button>
+                            <!-- <button class="ql-code-block"></button> -->
+                            <!-- <select class="ql-header">
+                        <option value="1"></option>
+                        <option value="2"></option>
+                        <option selected></option>
+                    </select> -->
+                            <!-- <button
+                        class="ql-list"
+                        value="ordered"
+                    ></button> -->
+                            <!-- <button
+                        class="ql-list"
+                        value="bullet"
+                    ></button> -->
+                            <!-- <button
+                        class="ql-script"
+                        value="sub"
+                    ></button> -->
+                            <!-- <button
+                        class="ql-script"
+                        value="super"
+                    ></button> -->
+                            <!-- <button
+                        class="ql-indent"
+                        value="-1"
+                    ></button> -->
+                            <!-- <button
+                        class="ql-indent"
+                        value="+1"
+                    ></button> -->
+                            <!-- <select class="ql-size">
+                        <option value="small"></option>
+                        <option selected></option>
+                        <option value="large"></option>
+                        <option value="huge"></option>
+                    </select> -->
 
-                        <!-- <select class="ql-font">
-                    <option selected></option>
-                </select> -->
-                        <!-- <select class="ql-color">
-                    <option selected></option>
-                </select> -->
-                        <!-- <select class="ql-background">
-                    <option selected></option>
-                </select> -->
-                        <!-- <select class="ql-align">
-                    <option selected></option>
-                    <option value="center"></option>
-                    <option value="right"></option>
-                    <option value="justify"></option>
-                </select> -->
+                            <!-- <select class="ql-font">
+                        <option selected></option>
+                    </select> -->
+                            <!-- <select class="ql-color">
+                        <option selected></option>
+                    </select> -->
+                            <!-- <select class="ql-background">
+                        <option selected></option>
+                    </select> -->
+                            <!-- <select class="ql-align">
+                        <option selected></option>
+                        <option value="center"></option>
+                        <option value="right"></option>
+                        <option value="justify"></option>
+                    </select> -->
 
-                        <button
-                            class="ql-header"
-                            value="1"
-                        ></button>
-                        <button
-                            class="ql-header"
-                            value="2"
-                        ></button>
+                            <button
+                                class="ql-header"
+                                value="1"
+                            ></button>
+                            <button
+                                class="ql-header"
+                                value="2"
+                            ></button>
 
-                        <button
-                            class="ql-align"
-                            value="center"
-                        ></button>
-                        <button
-                            class="ql-align"
-                            value="right"
-                        ></button>
+                            <button
+                                class="ql-align"
+                                value="center"
+                            ></button>
+                            <button
+                                class="ql-align"
+                                value="right"
+                            ></button>
 
-                        <button class="ql-clean"></button>
-                        <div></div>
-                    </ion-col>
-                    <ion-col
-                        size="4"
-                        style="display: flex; align-items: center"
-                    >
-                        <ColorPicker
-                            :pureColor="note.color"
-                            @pureColorChange="onColorChange"
-                        />
-                        <ion-icon
-                            :style="{
-                                color: `#4b5563`,
-                                fontSize: `18px`,
-                                cursor: 'pointer',
-                            }"
-                            :icon="trashOutline"
-                            @click="onDeleteNote($event)"
-                        ></ion-icon>
-                        <!-- <div>
-                        </div>
-                        <div>
-                        </div> -->
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col class="note-info">
-                        <span :title="`created: ${moment(note.created_at || note.modified_at)}`"
-                            >{{ $t("note.created") }}
-                            {{ moment(note.created_at || note.modified_at).format("YY-MM-DD  hh:mm") }}</span
+                            <button class="ql-clean"></button>
+                            <div></div>
+                        </ion-col>
+                        <ion-col
+                            size="4"
+                            style="display: flex; align-items: center"
                         >
-                        <span :title="`modified: ${moment(note.modified_at)}`"
-                            >{{ $t("note.modified") }} {{ moment(note.modified_at).format("YY-MM-DD  hh:mm") }}</span
-                        >
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </div>
-
-        <!-- :toolbar="quillToolbarOptions" -->
+                            <ColorPicker
+                                :pureColor="note.color"
+                                @pureColorChange="onColorChange"
+                            />
+                            <ion-icon
+                                :style="{
+                                    color: `#4b5563`,
+                                    fontSize: `18px`,
+                                    cursor: 'pointer',
+                                }"
+                                :icon="trashOutline"
+                                @click="onDeleteNote($event)"
+                            ></ion-icon>
+                            <!-- <div>
+                            </div>
+                            <div>
+                            </div> -->
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="note-info">
+                            <span :title="`created: ${moment(note.created_at || note.modified_at)}`"
+                                >{{ $t("note.created") }}
+                                {{ moment(note.created_at || note.modified_at).format("YY-MM-DD  hh:mm") }}</span
+                            >
+                            <span :title="`modified: ${moment(note.modified_at)}`"
+                                >{{ $t("note.modified") }}
+                                {{ moment(note.modified_at).format("YY-MM-DD  hh:mm") }}</span
+                            >
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </div>
+        </template>
     </div>
-    <!-- </vue-resizable> -->
 </template>
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount, watch } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from "vue";
 import { IonIcon, IonCol, IonGrid, IonRow } from "@ionic/vue";
 
 import { trashOutline } from "ionicons/icons";
@@ -265,7 +262,8 @@ import { ColorPicker } from "vue3-colorpicker";
 import { readableColor } from "polished";
 import moment from "moment";
 import { measureTextHeight, noteDeleteHandler } from "../util/ui";
-import { roundToNearestTen } from "../util/math";
+import { roundToNearestTen, MAX_Z_INDEX_CALC } from "../util/math";
+import { waitForElement } from "../util/dom";
 
 import { eventBus, noteStore } from "../store/store";
 const store = noteStore();
@@ -326,13 +324,22 @@ function noteContentBasedHeight(note): number {
 }
 function noteStyle(note: any) {
     const noteOrder = note.order ?? 0;
-    console.log("noteOrder", noteOrder);
+    const zIndex = (() => {
+        if (isActivated.value) {
+            return MAX_Z_INDEX_CALC + 111;
+        } else if (isInSearchFilter.value) {
+            return noteOrder + 100;
+        } else {
+            return noteOrder + 1;
+        }
+    })();
+    // console.log("noteOrder", noteOrder);
     const styles: any = {
         width: `${note.width}px`,
         height: `${note.height}px`,
         backgroundColor: note.color,
         // filter: `brightness(0.8)`, // Adjust brightness to darken (0.8 makes it slightly darker)
-        zIndex: isActivated.value ? noteOrder + 1000 : noteOrder + 10,
+        zIndex,
         color: `${noteReadableColor.value} !important`,
     };
 
@@ -400,6 +407,14 @@ onMounted(() => {
         }
     });
 
+    eventBus.on("ev/note/visibility", (data: any) => {
+        console.log("note visibility event => ", data);
+        const visibleNotes = data;
+        if (visibleNotes.includes(note.value.note_id)) {
+            isVisible.value = true;
+        }
+    });
+
     // document.addEventListener("keydown", handleDeleteRequest);
 
     function enableNoteResizable(elem) {
@@ -462,12 +477,21 @@ onMounted(() => {
     });
 
     // setupObserver(document.getElementById(`toolbar-${noteId}`));
+
+    // register scoll events
+    // Wait for Vue nextTick to ensure DOM updates
+    waitForElement(`#${noteId} .ql-editor`).then((editorEl: Element | null) => {
+        if (editorEl) {
+            editorEl.addEventListener("scroll", onInnerScroll);
+            editorEl.scrollTop = note.value.scrollY || 0;
+        }
+    });
 });
 
 function checkToolBarVisibility() {
     const noteElement = document.getElementById(noteId);
     const noteY = Number(noteElement?.style.top.replace("px", ""));
-    console.log("noteY", noteY);
+    // console.log("noteY", noteY);
     const toolbarVisible = noteY >= 51;
     const toolBarAnchor = document.getElementById(`toolbar-anchor-${noteId}`);
     if (toolbarVisible) {
@@ -490,8 +514,8 @@ function onDrag(x: number, y: number) {
     y = roundToNearestTen(y);
     store.editNote({ ...note.value, x, y });
 
-    clearTimeout(dragTimeout);
-    dragTimeout = setTimeout(() => {}, 500);
+    // clearTimeout(dragTimeout);
+    // dragTimeout = setTimeout(() => {}, 500);
 
     // const toolBar = document.getElementById(`toolbar-${noteId}`);
     // const toolBarAnchor = document.getElementById(`toolbar-anchor-${noteId}`);
@@ -507,6 +531,13 @@ function onDrag(x: number, y: number) {
     // }
 
     checkToolBarVisibility();
+}
+function onInnerScroll(event) {
+    const scrollTop = event.target.scrollTop;
+    clearTimeout(dragTimeout);
+    dragTimeout = setTimeout(() => {
+        store.editNote({ ...note.value, scrollY: scrollTop });
+    }, 200);
 }
 function onResize(width: number, height: number) {
     // for this also need to update local

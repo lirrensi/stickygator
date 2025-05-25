@@ -102,7 +102,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, defineEmits, onMounted, watch, computed, onBeforeUnmount } from "vue";
+import { ref, defineEmits, onMounted, watch, computed, onBeforeUnmount, nextTick } from "vue";
 import { IonReorderGroup, IonIcon } from "@ionic/vue";
 import { trashOutline } from "ionicons/icons";
 
@@ -192,4 +192,78 @@ const searchMatchesKey = computed(() => Array.from(store.searchMatch).sort().joi
 watch([currentViewMode, currentTab, searchMatchesKey], () => {
     applyIntegrations();
 });
+
+const globalObserver = new IntersectionObserver(
+    entries => {
+        const visibleNotes = entries.map((entry: any) => Number(entry.target?.dataset.noteId) || 0);
+        const notesSet = new Set(visibleNotes);
+        eventBus.emit("ev/note/visibility", [...notesSet]);
+    },
+    {
+        root: canvasRef.value,
+        rootMargin: "50px", // Load slightly before visible
+    },
+);
+watch(
+    () => store.currentNotesList,
+    () => {
+        // Clear previous observations
+        globalObserver.disconnect();
+
+        // Observe all current notes
+        nextTick(() => {
+            document.querySelectorAll("[data-note-id]").forEach(noteEl => {
+                globalObserver.observe(noteEl);
+            });
+        });
+
+        updateVirtualScroll();
+    },
+);
+
+function updateVirtualScroll() {
+    const notes = store.currentNotesList;
+    const padding = 200; // Virtual padding
+
+    const minX = Math.min(...notes.map(n => n.x)) - padding;
+    const minY = Math.min(...notes.map(n => n.y)) - padding;
+    const maxX = Math.max(...notes.map(n => n.x + n.width)) + padding;
+    const maxY = Math.max(...notes.map(n => n.y + n.height)) + padding;
+
+    // Create invisible boundary div
+    const virtualBoundaryID = "virtual-scroll-boundary";
+    const boundary = document.getElementById(virtualBoundaryID) || document.createElement("div");
+    boundary.id = virtualBoundaryID;
+    boundary.style.cssText = `
+        position: absolute;
+        top: ${minY}px;
+        left: ${minX}px;
+        width: ${maxX - minX}px;
+        height: ${maxY - minY}px;
+        pointer-events: none;
+        visibility: hidden;
+    `;
+
+    // @ts-expect-error | is never...
+    canvasRef.value?.appendChild(boundary);
+
+    // NOTE: possible solution for wide area offset, so can overscroll to negative...
+    // const CANVAS_OFFSET = 500; // Global offset
+
+    // // When creating/positioning notes:
+    // function adjustedPosition(x, y) {
+    //     return {
+    //         x: x + CANVAS_OFFSET,
+    //         y: y + CANVAS_OFFSET,
+    //     };
+    // }
+
+    // // In your note styles:
+    // styles.left = note.x + CANVAS_OFFSET + "px";
+    // styles.top = note.y + CANVAS_OFFSET + "px";
+
+    // // Update boundary calculation:
+    // let minX = Math.min(...notes.map(n => n.x)) - padding + CANVAS_OFFSET;
+    // let minY = Math.min(...notes.map(n => n.y)) - padding + CANVAS_OFFSET;
+}
 </script>

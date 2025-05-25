@@ -5,6 +5,7 @@ import mitt from "mitt";
 import localforage from "localforage";
 import Fuse from "fuse.js";
 import { memoize } from "lodash";
+import { timestampToZIndex } from "../util/math";
 
 import { tt, getAllLocales, switchLocale } from "../i18n";
 
@@ -28,6 +29,7 @@ export interface StickyNote {
     tab_id: string | number;
     x: number; // from topleft 0 => xxx
     y: number; // from topleft 0 => xxx
+    scrollY?: number; // scroll of inner quill position
     width: number;
     height: number;
     color: string;
@@ -344,6 +346,7 @@ export const noteStore = defineStore("noteStore", {
                 tab_id: this.currentTabIndex,
                 x: coords.x,
                 y: coords.y,
+                scrollY: 0,
                 width: 200,
                 height: 200,
                 // color: this.appSettings.darkTheme ? "#222" : "#ddd",
@@ -361,13 +364,15 @@ export const noteStore = defineStore("noteStore", {
                 console.error("note id not found");
                 return;
             }
+            // Set modification time first
             noteMerge.modified_at = Date.now();
+
             this.notes[noteMerge.note_id] = {
                 ...this.notes[noteMerge.note_id],
                 ...noteMerge,
             };
-            // this.notesBuildOrder();
-            // console.log("note mod => ", this.notes[noteMerge.note_id]);
+
+            this.notesBuildOrder();
         },
         moveNoteToNewTab(note_id, tab_id) {
             const note = this.notes[note_id];
@@ -378,9 +383,7 @@ export const noteStore = defineStore("noteStore", {
             Object.values(this.notes)
                 .sort((a, b) => a.modified_at - b.modified_at)
                 .forEach((note, index) => {
-                    // console.log(`note order => ${note.note_id} => ${index}`);
                     this.notes[note.note_id].order = index;
-                    // console.log(this.notes[note.note_id].order);
                 });
         },
         deleteNote(note: StickyNote) {
@@ -404,21 +407,23 @@ export const noteStore = defineStore("noteStore", {
 
             let notesFound: StickyNote[] = [];
             let notesNotFound: StickyNote[] = [];
-            for (let note of notes) {
+            for (const note of notes) {
                 state.searchMatch.has(note.note_id) ? notesFound.push(note) : notesNotFound.push(note);
             }
             notesFound = notesFound.sort((a: any, b: any) => b.modified_at - a.modified_at);
+
             // NOTE THAT WE MODIFY IN GETTER, but we are going to do it anyway in each reorder;
-            notesFound.forEach((note, index) => {
-                note.order = 500 + index;
-            });
+            // notesFound.forEach((note, index) => {
+            //     note.order = 500 + index;
+            // });
+
             if (withSearchOnly) {
                 return notesFound;
             }
             notesNotFound = notesNotFound.sort((a: any, b: any) => b.modified_at - a.modified_at);
-            notesNotFound.forEach((note, index) => {
-                note.order = index;
-            });
+            // notesNotFound.forEach((note, index) => {
+            //     note.order = index;
+            // });
             return ([] as any[]).concat(notesFound, notesNotFound);
         },
     },

@@ -143,6 +143,11 @@
                             slot="content"
                         >
                             <p>
+                                1.8 (25.05.2025) Fixed double window for electron app, note Z index not saving
+                                correctly. Added saving scroll positions per note. Added scroll paddings for main area.
+                                Fixed 100+ notes lag when switching.
+                            </p>
+                            <p>
                                 1.6 (03.11.2024) Added full text search with fuzzy method, fix no default settings
                                 causing error to display, notes in grid mode can now be dragged to change tabs, fix
                                 scrollbar being ugly in webkit/moz, better border in notes, tabs also filtered in search
