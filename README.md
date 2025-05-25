@@ -3,9 +3,7 @@
 **STICKYGATOR** is a modern, offline-first sticky notes and kanban-board app for desktops (and mobile/tablet support). Perfect for organizing quick notes, todos, and ideas—drag 'em, resize 'em, color 'em, tab 'em, and never lose your stuff.  
 Inspired by [zonote](https://github.com/zonetti/zonote) and extended for power users.
 
-# demo
-
-# [demo](https://lirrensi.github.io/stickygator/)
+# [APP DEMO HERE](https://lirrensi.github.io/stickygator/)
 
 ![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/main/img_showcase/1.png)
 
