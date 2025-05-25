@@ -5,6 +5,8 @@ Inspired by [zonote](https://github.com/zonetti/zonote) and extended for power u
 
 ---
 
+![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/master/img_showcase/1.png)
+
 ## ✨ Features
 
 -   **Offline-first:** All notes and settings are saved _locally_ (browser IndexedDB / desktop storage).  
@@ -47,6 +49,9 @@ Inspired by [zonote](https://github.com/zonetti/zonote) and extended for power u
     -   Dynamic collapsing sidebar for more workspace
 
 ---
+
+![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/master/img_showcase/2.png)
+![Showcase Image_1](https://github.com/lirrensi/stickygator/raw/master/img_showcase/3.png)
 
 ## 🚀 Getting Started
 
