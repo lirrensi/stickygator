@@ -4,13 +4,6 @@
 const { app, BrowserWindow } = require("electron");
 const path = require("node:path");
 const fs = require("fs");
-(async () => {
-    const contextMenu = (await import("electron-context-menu")).default;
-    // Now you can use contextMenu as usual
-    contextMenu({
-        showInspectElement: true, // Optionally show the "Inspect Element" option
-    });
-})();
 
 // Custom paths relative to app directory
 let APP_ROOT, APPDATA_DIR, USERDATA_DIR;
@@ -32,11 +25,42 @@ function setupDirectories() {
         }
     });
 }
+
 // Override default app data path to keep everything in the app directory
 app.setPath("userData", APPDATA_DIR);
 app.setPath("sessionData", path.join(APPDATA_DIR, "session"));
 app.setPath("temp", path.join(APPDATA_DIR, "temp"));
 app.setPath("logs", path.join(APPDATA_DIR, "logs"));
+
+// Initialize context menu after app is ready
+app.whenReady().then(async () => {
+    try {
+        const contextMenu = (await import("electron-context-menu")).default;
+        // Now you can use contextMenu as usual
+        contextMenu({
+            showInspectElement: true, // Optionally show the "Inspect Element" option
+            showLearnSpelling: true,  // Enable "Learn Spelling" option
+            showLookUpSelection: true, // Enable "Look Up" option for macOS
+            showSearchWithGoogle: true, // Enable "Search with Google" option
+            showCopyImage: true,       // Show "Copy Image" option
+            showCopyImageAddress: true,// Show "Copy Image Address" option
+            showSaveImage: true,       // Show "Save Image" option
+            showSaveImageAs: true,     // Show "Save Image As..." option
+            showSaveLinkAs: true,      // Show "Save Link As..." option
+            showServices: true,        // Show "Services" submenu on macOS
+        });
+        console.log("Context menu initialized successfully");
+    } catch (error) {
+        console.error("Failed to initialize context menu:", error);
+    }
+
+    setupDirectories();
+    createWindow();
+
+    app.on("activate", () => {
+        if (BrowserWindow.getAllWindows().length === 0) createWindow();
+    });
+});
 
 const createWindow = () => {
     // Create the browser window.
@@ -45,6 +69,10 @@ const createWindow = () => {
         height: 600,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
+            // Essential for context menu and spell check functionality
+            nodeIntegration: false,
+            contextIsolation: true,
+            spellcheck: true,  // Enable spell checking
         },
         autoHideMenuBar: true,
     });
@@ -72,34 +100,20 @@ const createWindow = () => {
     });
 };
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-
 const gotTheLock = app.requestSingleInstanceLock();
 
 if (!gotTheLock) {
     // Another instance is already running - quit this one
     app.quit();
 } else {
-    app.on("second-instance", () => {
+    app.on("second-instance", (event, commandLine, workingDirectory) => {
         // Someone tried to run a second instance, focus the existing window instead
-
-        const win = BrowserWindow.getAllWindows()[0];
-        if (win) {
+        const windows = BrowserWindow.getAllWindows();
+        if (windows.length > 0) {
+            const win = windows[0];
             if (win.isMinimized()) win.restore();
             win.focus();
         }
-    });
-
-    // The rest of your app initialization below...
-    app.whenReady().then(() => {
-        setupDirectories();
-        createWindow();
-
-        app.on("activate", () => {
-            if (BrowserWindow.getAllWindows().length === 0) createWindow();
-        });
     });
 
     // Quit when all windows are closed, except on macOS. There, it's common
